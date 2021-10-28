@@ -1,0 +1,37 @@
+#!/bin/sh
+mkdir ~/.config
+touch ~/.config/gnome-initial-setup-done
+
+# Hide the Activities button
+gnome-extensions enable Hide_Activities@shay.shayel.org
+
+# Hide the dock
+gnome-extensions disable dash-to-dock@micxgx.gmail.com
+
+# Disable the Super key and other shortcut keys
+gsettings set org.gnome.mutter overlay-key ''
+gsettings set org.gnome.desktop.wm.keybindings panel-main-menu "[]"
+gsettings set org.gnome.shell.keybindings toggle-overview "['']"
+gsettings set org.gnome.shell.keybindings toggle-application-view "['']"
+
+# Disable hot corners
+gsettings set org.gnome.desktop.interface enable-hot-corners false
+
+# Disable Alt + F2
+gsettings set org.gnome.desktop.lockdown disable-command-line true
+
+touch ~/.config/kamarada-firstboot
+while [ -e ~/.config/kamarada-firstboot ]
+do
+    gedit ~/.bashrc
+done
+
+# Undo settings
+gnome-extensions disable Hide_Activities@shay.shayel.org
+gnome-extensions enable dash-to-dock@micxgx.gmail.com
+gsettings reset org.gnome.mutter overlay-key
+gsettings reset org.gnome.desktop.wm.keybindings panel-main-menu
+gsettings reset org.gnome.shell.keybindings toggle-overview
+gsettings reset org.gnome.shell.keybindings toggle-application-view
+gsettings reset org.gnome.desktop.interface enable-hot-corners
+gsettings reset org.gnome.desktop.lockdown disable-command-line
