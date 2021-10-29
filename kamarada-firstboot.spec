@@ -28,7 +28,7 @@ Try / Install welcome screen presented to the user when the Live system boots.
 
 %install
 mkdir -p %{buildroot}%{_bindir}/
-install -m0644 usr/bin/kamarada-firstboot %{buildroot}%{_bindir}/
+install -m0755 usr/bin/kamarada-firstboot %{buildroot}%{_bindir}/
 mkdir -p %{buildroot}%{_datadir}/applications/
 install -m0644 usr/share/applications/* %{buildroot}%{_datadir}/applications/
 mkdir -p %{buildroot}%{_datadir}/gnome-session/sessions/
