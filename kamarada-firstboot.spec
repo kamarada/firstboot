@@ -10,6 +10,7 @@ Source:         https://gitlab.com/kamarada/firstboot/-/archive/%{version}-dev/f
 BuildRequires:  gnome-session-core
 
 Requires:       gnome-shell
+Requires:       gnome-shell-extension-hide-activities-button
 
 BuildArch:      noarch
 
