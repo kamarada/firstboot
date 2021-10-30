@@ -9,8 +9,12 @@ Source:         https://gitlab.com/kamarada/firstboot/-/archive/%{version}-dev/f
 # For directory ownership
 BuildRequires:  gnome-session-core
 
+Requires:       feh
 Requires:       gnome-shell
 Requires:       gnome-shell-extension-hide-activities-button
+Requires:       openbox
+Requires:       xsetroot
+Requires:       wallpaper-branding-kamarada = %{version}
 
 BuildArch:      noarch
 
@@ -33,6 +37,8 @@ mkdir -p %{buildroot}%{_datadir}/applications/
 install -m0644 usr/share/applications/* %{buildroot}%{_datadir}/applications/
 mkdir -p %{buildroot}%{_datadir}/gnome-session/sessions/
 install -m0644 usr/share/gnome-session/sessions/kamarada-firstboot.session %{buildroot}%{_datadir}/gnome-session/sessions/
+mkdir -p %{buildroot}%{_datadir}/kamarada-firstboot/
+install -m0644 usr/share/kamarada-firstboot/autostart.template %{buildroot}%{_datadir}/kamarada-firstboot/
 mkdir -p %{buildroot}%{_datadir}/xsessions/
 install -m0644 usr/share/xsessions/com.linuxkamarada.Firstboot.desktop %{buildroot}%{_datadir}/xsessions/
 
@@ -42,6 +48,7 @@ install -m0644 usr/share/xsessions/com.linuxkamarada.Firstboot.desktop %{buildro
 %{_datadir}/applications/com.linuxkamarada.Firstboot.Script.desktop
 %{_datadir}/applications/com.linuxkamarada.Firstboot.WindowManager.desktop
 %{_datadir}/gnome-session/sessions/kamarada-firstboot.session
+%{_datadir}/kamarada-firstboot/autostart.template
 %{_datadir}/xsessions/com.linuxkamarada.Firstboot.desktop
 
 
