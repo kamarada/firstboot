@@ -48,7 +48,7 @@ install -m0644 usr/share/xsessions/com.linuxkamarada.Firstboot.desktop %{buildro
 %{_datadir}/applications/com.linuxkamarada.Firstboot.Script.desktop
 %{_datadir}/applications/com.linuxkamarada.Firstboot.WindowManager.desktop
 %{_datadir}/gnome-session/sessions/kamarada-firstboot.session
-%{_datadir}/kamarada-firstboot/autostart.template
+%{_datadir}/kamarada-firstboot/
 %{_datadir}/xsessions/com.linuxkamarada.Firstboot.desktop
 
 
