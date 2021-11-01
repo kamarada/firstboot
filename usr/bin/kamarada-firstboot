@@ -19,7 +19,7 @@ run() {
     touch ~/.config/kamarada-firstboot
     while [ -e ~/.config/kamarada-firstboot ]
     do
-        python3 /usr/share/kamarada-firstboot.py
+        python3 /usr/share/kamarada-firstboot/kamarada-firstboot.py
 
         # Read text file
         # https://stackoverflow.com/a/10771857/1657502
