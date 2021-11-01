@@ -37,17 +37,34 @@ Try / Install welcome screen presented to the user when the Live system boots.
 %install
 mkdir -p %{buildroot}%{_bindir}/
 install -m0755 usr/bin/kamarada-firstboot %{buildroot}%{_bindir}/
+
 mkdir -p %{buildroot}%{_datadir}/applications/
 install -m0644 usr/share/applications/* %{buildroot}%{_datadir}/applications/
+
 mkdir -p %{buildroot}%{_datadir}/gnome-session/sessions/
 install -m0644 usr/share/gnome-session/sessions/kamarada-firstboot.session %{buildroot}%{_datadir}/gnome-session/sessions/
-mkdir -p %{buildroot}%{_datadir}/kamarada-firstboot/
-install -m0644 usr/share/kamarada-firstboot/autostart.template %{buildroot}%{_datadir}/kamarada-firstboot/
+
+mkdir -p %{buildroot}%{_datadir}/kamarada-firstboot/png/
+install -m0644 usr/share/kamarada-firstboot/kamarada-firstboot.{py,ui} %{buildroot}%{_datadir}/kamarada-firstboot/
+install -m0644 usr/share/kamarada-firstboot/png/* %{buildroot}%{_datadir}/kamarada-firstboot/png/
+
+mkdir -p %{buildroot}%{_datadir}/kamarada-firstboot/svg/
+# TODO These SVGs were taken from Papirus, I could symlink them
+install -m0644 usr/share/kamarada-firstboot/svg/{computer-laptop,media-flash-memory-stick,media-optical,ubiquity-kde}.svg %{buildroot}%{_datadir}/kamarada-firstboot/svg/
+
+mkdir -p %{buildroot}%{_datadir}/locale/en_US/LC_MESSAGES/
+install -m0644 usr/share/locale/en_US/LC_MESSAGES/kamarada-firstboot.mo %{buildroot}%{_datadir}/locale/en_US/LC_MESSAGES/
+
+mkdir -p %{buildroot}%{_datadir}/locale/pt_BR/LC_MESSAGES/
+install -m0644 usr/share/locale/pt_BR/LC_MESSAGES/kamarada-firstboot.mo %{buildroot}%{_datadir}/locale/pt_BR/LC_MESSAGES/
+
 mkdir -p %{buildroot}%{_datadir}/xsessions/
 install -m0644 usr/share/xsessions/com.linuxkamarada.Firstboot.desktop %{buildroot}%{_datadir}/xsessions/
 
+%find_lang kamarada-firstboot
 
-%files
+
+%files -f kamarada-firstboot.lang
 %{_bindir}/kamarada-firstboot
 %{_datadir}/applications/com.linuxkamarada.Firstboot.Script.desktop
 %{_datadir}/applications/com.linuxkamarada.Firstboot.WindowManager.desktop
