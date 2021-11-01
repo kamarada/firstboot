@@ -1,11 +1,45 @@
-#!/bin/sh
-mkdir ~/.config
+#!/bin/bash
 
-touch ~/.config/kamarada-firstboot
-while [ -e ~/.config/kamarada-firstboot ]
-do
-    gedit ~/.bashrc
-done
+checkRoot() {
+    if [[ $UID != 0 ]]; then
+        echo "This option requires sudo:"
+        echo "sudo $0 $*"
+        exit 1
+    fi
+}
 
-sudo sed -i 's/DEFAULT_WM="openbox"/DEFAULT_WM="gnome"/g' /etc/sysconfig/windowmanager
-sudo systemctl restart display-manager
+prepare() {
+    checkRoot
+    sed -i 's/DEFAULT_WM="gnome"/DEFAULT_WM="openbox"/g' /etc/sysconfig/windowmanager
+    echo "kamarada-firstboot" >> /home/linux/.config/openbox/autostart
+}
+
+run() {
+    mkdir ~/.config
+    touch ~/.config/kamarada-firstboot
+    while [ -e ~/.config/kamarada-firstboot ]
+    do
+        python3 /usr/share/kamarada-firstboot.py
+    done
+    sudo $0 --restore
+    sudo systemctl restart display-manager
+}
+
+restore() {
+    checkRoot
+    sed -i 's/DEFAULT_WM="openbox"/DEFAULT_WM="gnome"/g' /etc/sysconfig/windowmanager
+    sed -i '$d' /home/linux/.config/openbox/autostart
+}
+
+case "$1" in
+    --prepare)
+        prepare
+        break;;
+    --restore)
+        restore
+        break;;
+    *)
+        run
+        break;;
+esac
+

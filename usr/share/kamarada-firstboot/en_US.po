@@ -1,0 +1,46 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2021 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# vinicius <linuxkamarada@gmail.com>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-31 16:54-0300\n"
+"PO-Revision-Date: 2021-10-31 16:55-0300\n"
+"Last-Translator: vinicius <linuxkamarada@gmail.com>\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: kamarada-firstboot.ui.h:1
+msgid "Back"
+msgstr "Back"
+
+#: kamarada-firstboot.ui.h:2
+msgid "Try Linux Kamarada"
+msgstr "Try Linux Kamarada"
+
+#: kamarada-firstboot.ui.h:3
+msgid "Install Linux Kamarada"
+msgstr "Install Linux Kamarada"
+
+#: kamarada-firstboot.ui.h:4
+msgid ""
+"You can try Linux Kamarada without making any changes to your computer, "
+"directly from this live medium."
+msgstr ""
+"You can try Linux Kamarada without making any changes to your computer, "
+"directly from this live medium."
+
+#: kamarada-firstboot.ui.h:5
+msgid ""
+"Or, if you're ready, you can install Linux Kamarada alongside (or instead "
+"of) your current operating system."
+msgstr ""
+"Or, if you're ready, you can install Linux Kamarada alongside (or instead "
+"of) your current operating system."

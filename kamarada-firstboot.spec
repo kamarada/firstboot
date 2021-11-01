@@ -13,6 +13,10 @@ Requires:       feh
 Requires:       gnome-shell
 Requires:       gnome-shell-extension-hide-activities-button
 Requires:       openbox
+Requires:       python3
+Requires:       sed
+Requires:       sudo
+Requires:       systemd
 Requires:       xsetroot
 Requires:       wallpaper-branding-kamarada = %{version}
 
