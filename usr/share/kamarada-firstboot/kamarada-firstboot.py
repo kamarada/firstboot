@@ -3,7 +3,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-from os.path import abspath, dirname, join, realpath
+from os.path import abspath, dirname, expanduser, join, realpath
 #import gettext
 #import locale
 # Waiting for: https://stackoverflow.com/q/69791625/1657502
@@ -20,9 +20,17 @@ whereAmI = abspath(dirname(realpath(__file__)))
 #gettext.textdomain(domain)
 #_ = gettext.gettext
 
+resultFilePath = '~/.config/kamarada-firstboot'
+resultFilePath = expanduser(resultFilePath)
+
+selectedLanguage = 'en_US'
+selectedAction = ''
+
 
 def onBtnPortugueseClicked(button):
     #locale.setlocale(locale.LC_ALL, 'pt_BR.utf8') # Currently, this line does nothing (https://stackoverflow.com/q/69791625/1657502)
+    global selectedLanguage
+    selectedLanguage = 'pt_BR'
     btnBack.set_label('Voltar')
     btnBack.set_visible(True)
     headerBar.set_title('Bem-vindo')
@@ -36,6 +44,8 @@ def onBtnPortugueseClicked(button):
 
 def onBtnEnglishClicked(button):
     #locale.setlocale(locale.LC_ALL, 'en_US.utf8') # Currently, this line does nothing (https://stackoverflow.com/q/69791625/1657502)
+    global selectedLanguage
+    selectedLanguage = 'en_US'
     btnBack.set_label('Back')
     btnBack.set_visible(True)
     headerBar.set_title('Welcome')
@@ -49,18 +59,48 @@ def onBtnEnglishClicked(button):
 
 def onBtnBackClicked(button):
     #locale.setlocale(locale.LC_ALL, 'en_US.utf8') # Currently, this line does nothing (https://stackoverflow.com/q/69791625/1657502)
+    global selectedLanguage
+    selectedLanguage = 'en_US'
     btnBack.set_visible(False)
     headerBar.set_title('Bem-vindo')
     headerBar.set_subtitle('Welcome')
     headerBar.set_show_close_button(False)
     stack.set_visible_child_full('grdLanguage', Gtk.StackTransitionType.SLIDE_RIGHT)
 
+def onCloseButtonClicked(widget, event):
+    global selectedAction
+    if selectedAction:
+        return False
+    dialog = Gtk.MessageDialog(transient_for=mainWindow,
+                               modal=True,
+                               buttons=Gtk.ButtonsType.OK_CANCEL)
+    if (selectedLanguage == 'en_US'):
+        dialog.props.text = 'If you quit, your computer is going to be restarted.\n\nAre you sure you want to continue?'
+    elif (selectedLanguage == 'pt_BR'):
+        dialog.props.text = 'Se você sair, seu computador será reiniciado.\n\nTem certeza de que quer continuar?'
+    response = dialog.run()
+    dialog.destroy()
+    if (response == Gtk.ResponseType.OK):
+        selectedAction = 'Reboot'
+        writeResult()
+        return False
+    # Otherwise keep the application open
+    return True
+
 def onBtnTryClicked(button):
-    print('Try')
+    global selectedAction
+    selectedAction = 'Try'
+    writeResult()
+    mainWindow.close()
 
 def onBtnInstallClicked(button):
     print('Install')
+    # TODO Launch installer
 
+def writeResult():
+    resultFile = open(resultFilePath, 'w+')
+    resultFile.write(selectedAction + '\n' + selectedLanguage)
+    resultFile.close()
 
 builder = Gtk.Builder()
 #builder.set_translation_domain(domain)
@@ -96,6 +136,7 @@ stack.add_named(grdLanguage, 'grdLanguage')
 stack.add_named(grdTryInstall, 'grdTryInstall')
 
 mainWindow = builder.get_object('mainWindow')
+mainWindow.connect('delete-event', onCloseButtonClicked)
 mainWindow.connect('destroy', Gtk.main_quit)
 mainWindow.show()
 

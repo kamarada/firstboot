@@ -20,9 +20,30 @@ run() {
     while [ -e ~/.config/kamarada-firstboot ]
     do
         python3 /usr/share/kamarada-firstboot.py
+
+        # Read text file
+        # https://stackoverflow.com/a/10771857/1657502
+        RESULT=$(<~/.config/kamarada-firstboot)
+
+        # Split string
+        # https://stackoverflow.com/a/1478245/1657502
+        set -- junk $RESULT
+        shift
+        SELECTED_ACTION=$1
+        SELECTED_LANGUAGE=$2
+
+        case "$SELECTED_ACTION" in
+            Reboot)
+                sudo reboot
+                break;;
+            Try)
+                # TODO Set locale
+                #rm ~/.config/kamarada-firstboot
+                sudo $0 --restore
+                sudo systemctl restart display-manager
+                break;;
+        esac
     done
-    sudo $0 --restore
-    sudo systemctl restart display-manager
 }
 
 restore() {
