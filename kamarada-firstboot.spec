@@ -14,6 +14,7 @@ Requires:       gnome-shell
 Requires:       gnome-shell-extension-hide-activities-button
 Requires:       openbox
 Requires:       python3
+Requires:       python3-gobject-Gdk
 Requires:       sed
 Requires:       sudo
 Requires:       systemd
