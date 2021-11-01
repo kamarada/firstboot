@@ -13,6 +13,7 @@ Requires:       feh
 Requires:       gnome-shell
 Requires:       gnome-shell-extension-hide-activities-button
 Requires:       openbox
+Requires:       papirus-icon-theme-kamarada
 Requires:       python3
 Requires:       sed
 Requires:       sudo
@@ -49,7 +50,9 @@ install -m0644 usr/share/kamarada-firstboot/kamarada-firstboot.{py,ui} %{buildro
 install -m0644 usr/share/kamarada-firstboot/png/* %{buildroot}%{_datadir}/kamarada-firstboot/png/
 
 mkdir -p %{buildroot}%{_datadir}/kamarada-firstboot/svg/
-# TODO These SVGs were taken from Papirus, I could symlink them
+ln -s %{_datadir}/icons/Papirus/64x64/apps/ubiquity-kde.svg %{buildroot}%{_datadir}/kamarada-firstboot/svg/
+ln -s %{_datadir}/icons/Papirus/64x64/devices/{computer-laptop,media-flash-memory-stick,media-optical}.svg %{buildroot}%{_datadir}/kamarada-firstboot/svg/
+
 install -m0644 usr/share/kamarada-firstboot/svg/{computer-laptop,media-flash-memory-stick,media-optical,ubiquity-kde}.svg %{buildroot}%{_datadir}/kamarada-firstboot/svg/
 
 mkdir -p %{buildroot}%{_datadir}/locale/en_US/LC_MESSAGES/
