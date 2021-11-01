@@ -1,5 +1,22 @@
 #!/bin/bash
 
+# Borrowed from /usr/lib/python3.6/site-packages/kiwi/config/functions.sh
+function baseUpdateSysConfig {
+    # /.../
+    # Update the contents of a sysconfig variable
+    # ----
+    local FILE=$1
+    local VAR
+    local VAL
+    if [ -f "${FILE}" ];then
+        VAR=$2
+        VAL=$3
+        eval sed -i "s'@^\($VAR=\).*\$@\1\\\"$VAL\\\"@'" "${FILE}"
+    else
+        echo "warning: config file $FILE not found"
+    fi
+}
+
 checkRoot() {
     if [[ $UID != 0 ]]; then
         echo "This option requires sudo:"
@@ -10,7 +27,7 @@ checkRoot() {
 
 prepare() {
     checkRoot
-    sed -i 's/DEFAULT_WM="gnome"/DEFAULT_WM="openbox"/g' /etc/sysconfig/windowmanager
+    baseUpdateSysConfig /etc/sysconfig/windowmanager DEFAULT_WM openbox
     echo "kamarada-firstboot" >> /home/linux/.config/openbox/autostart
 }
 
@@ -37,27 +54,32 @@ run() {
                 sudo reboot
                 break;;
             Try)
-                # TODO Set locale
-                #rm ~/.config/kamarada-firstboot
-                sudo $0 --restore
-                sudo systemctl restart display-manager
+                rm ~/.config/kamarada-firstboot
+                sudo $0 --try $SELECTED_LANGUAGE
                 break;;
         esac
     done
 }
 
-restore() {
+try() {
     checkRoot
-    sed -i 's/DEFAULT_WM="openbox"/DEFAULT_WM="gnome"/g' /etc/sysconfig/windowmanager
+    baseUpdateSysConfig /etc/sysconfig/windowmanager DEFAULT_WM gnome
+    # Delete the last line of the file
     sed -i '$d' /home/linux/.config/openbox/autostart
+
+    SELECTED_LANGUAGE=$1
+    /usr/sbin/kamarada-setup $SELECTED_LANGUAGE
+
+    systemctl restart display-manager
+    break;;
 }
 
 case "$1" in
     --prepare)
         prepare
         break;;
-    --restore)
-        restore
+    --try)
+        try $2
         break;;
     *)
         run

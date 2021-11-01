@@ -12,6 +12,7 @@ BuildRequires:  gnome-session-core
 Requires:       feh
 Requires:       gnome-shell
 Requires:       gnome-shell-extension-hide-activities-button
+Requires:       live-langset-data
 Requires:       openbox
 Requires:       python3
 Requires:       python3-gobject-Gdk
@@ -39,6 +40,9 @@ Try / Install welcome screen presented to the user when the Live system boots.
 mkdir -p %{buildroot}%{_bindir}/
 install -m0755 usr/bin/kamarada-firstboot %{buildroot}%{_bindir}/
 
+mkdir -p %{buildroot}%{_sbindir}/
+install -m0755 usr/sbin/kamarada-setup %{buildroot}%{_sbindir}/
+
 mkdir -p %{buildroot}%{_datadir}/applications/
 install -m0644 usr/share/applications/* %{buildroot}%{_datadir}/applications/
 
@@ -63,6 +67,7 @@ install -m0644 usr/share/xsessions/com.linuxkamarada.Firstboot.desktop %{buildro
 
 %files -f kamarada-firstboot.lang
 %{_bindir}/kamarada-firstboot
+%{_sbindir}/kamarada-setup
 %{_datadir}/applications/com.linuxkamarada.Firstboot.Script.desktop
 %{_datadir}/applications/com.linuxkamarada.Firstboot.WindowManager.desktop
 %{_datadir}/gnome-session/sessions/kamarada-firstboot.session

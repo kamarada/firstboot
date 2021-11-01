@@ -1,0 +1,21 @@
+#!/bin/bash
+
+SELECTED_LANGUAGE=$1
+
+# Set locale
+/usr/sbin/langset.sh $SELECTED_LANGUAGE
+
+case "$SELECTED_LANGUAGE" in
+    en_US)
+        echo "YAST_KEYBOARD=\"english-us,pc104\"" >> /etc/sysconfig/keyboard
+        baseUpdateSysConfig /etc/sysconfig/clock DEFAULT_TIMEZONE "US/Eastern"
+        rm /etc/adjtime
+        break;;
+    pt_BR)
+        echo "YAST_KEYBOARD=\"portugese-br,pc104\"" >> /etc/sysconfig/keyboard
+        baseUpdateSysConfig /etc/sysconfig/language ROOT_USES_LANG "yes"
+        baseUpdateSysConfig /etc/sysconfig/language INSTALLED_LANGUAGES "pt_BR"
+        baseUpdateSysConfig /etc/sysconfig/clock DEFAULT_TIMEZONE "Brazil/East"
+        sed -i 's/2.opensuse.pool.ntp.org/pool.ntp.br/g' /etc/chrony.conf
+        break;;
+    esac
