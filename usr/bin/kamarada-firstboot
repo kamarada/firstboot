@@ -71,7 +71,6 @@ try() {
     /usr/sbin/kamarada-setup $SELECTED_LANGUAGE
 
     systemctl restart display-manager
-    break;;
 }
 
 case "$1" in
