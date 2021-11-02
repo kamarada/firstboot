@@ -8,7 +8,8 @@ Source:         https://gitlab.com/kamarada/firstboot/-/archive/%{version}-dev/f
 
 Requires:       calamares
 Requires:       gnome-shell
-Requires:       kdesu
+# kdesu
+Requires:       kde-cli-tools5
 Requires:       live-langset-data
 Requires:       openbox
 Requires:       python3
