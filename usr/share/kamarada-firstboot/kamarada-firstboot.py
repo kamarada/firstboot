@@ -27,6 +27,12 @@ selectedLanguage = 'en_US'
 selectedAction = ''
 
 
+def getStrYes():
+    return 'Yes' if (selectedLanguage == 'en_US') else 'Sim'
+
+def getStrNo():
+    return 'No' if (selectedLanguage == 'en_US') else 'Não'
+
 def onBtnPortugueseClicked(button):
     #locale.setlocale(locale.LC_ALL, 'pt_BR.utf8') # Currently, this line does nothing (https://stackoverflow.com/q/69791625/1657502)
     global selectedLanguage
@@ -75,14 +81,14 @@ def onBtnShutdownClicked(button):
     dialog = Gtk.MessageDialog(transient_for=mainWindow,
                                modal=True,
                                flags=0,
-                               message_type=Gtk.MessageType.QUESTION,
-                               buttons=Gtk.ButtonsType.YES_NO)
+                               message_type=Gtk.MessageType.QUESTION)
     if (selectedLanguage == 'en_US'):
         dialog.props.text = 'Your computer is going to shutdown.'
         dialog.props.secondary_text = 'Are you sure you want to continue?'
     elif (selectedLanguage == 'pt_BR'):
         dialog.props.text = 'Seu computador será desligado.'
         dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
+    dialog.add_buttons(getStrYes(), Gtk.ResponseType.YES, getStrNo(), Gtk.ResponseType.NO)
     response = dialog.run()
     dialog.destroy()
     if (response == Gtk.ResponseType.YES):
@@ -95,14 +101,14 @@ def onBtnRebootClicked(button):
     dialog = Gtk.MessageDialog(transient_for=mainWindow,
                                modal=True,
                                flags=0,
-                               message_type=Gtk.MessageType.QUESTION,
-                               buttons=Gtk.ButtonsType.YES_NO)
+                               message_type=Gtk.MessageType.QUESTION)
     if (selectedLanguage == 'en_US'):
         dialog.props.text = 'Your computer is going to reboot.'
         dialog.props.secondary_text = 'Are you sure you want to continue?'
     elif (selectedLanguage == 'pt_BR'):
         dialog.props.text = 'Seu computador será reiniciado.'
         dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
+    dialog.add_buttons(getStrYes(), Gtk.ResponseType.YES, getStrNo(), Gtk.ResponseType.NO)
     response = dialog.run()
     dialog.destroy()
     if (response == Gtk.ResponseType.YES):
@@ -129,14 +135,14 @@ def onClose(widget, event):
     dialog = Gtk.MessageDialog(transient_for=mainWindow,
                                modal=True,
                                flags=0,
-                               message_type=Gtk.MessageType.QUESTION,
-                               buttons=Gtk.ButtonsType.YES_NO)
+                               message_type=Gtk.MessageType.QUESTION)
     if (selectedLanguage == 'en_US'):
         dialog.props.text = 'If you quit, your computer is going to reboot.'
         dialog.props.secondary_text = 'Are you sure you want to continue?'
     elif (selectedLanguage == 'pt_BR'):
         dialog.props.text = 'Se você sair, seu computador será reiniciado.'
         dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
+    dialog.add_buttons(getStrYes(), Gtk.ResponseType.YES, getStrNo(), Gtk.ResponseType.NO)
     response = dialog.run()
     dialog.destroy()
     if (response == Gtk.ResponseType.YES):
