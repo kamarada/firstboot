@@ -89,6 +89,7 @@ def onBtnShutdownClicked(button):
         dialog.props.text = 'Seu computador será desligado.'
         dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
     dialog.add_buttons(getStrYes(), Gtk.ResponseType.YES, getStrNo(), Gtk.ResponseType.NO)
+    dialog.set_default_response(Gtk.ResponseType.NO)
     response = dialog.run()
     dialog.destroy()
     if (response == Gtk.ResponseType.YES):
@@ -109,6 +110,7 @@ def onBtnRebootClicked(button):
         dialog.props.text = 'Seu computador será reiniciado.'
         dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
     dialog.add_buttons(getStrYes(), Gtk.ResponseType.YES, getStrNo(), Gtk.ResponseType.NO)
+    dialog.set_default_response(Gtk.ResponseType.NO)
     response = dialog.run()
     dialog.destroy()
     if (response == Gtk.ResponseType.YES):
@@ -143,6 +145,7 @@ def onClose(widget, event):
         dialog.props.text = 'Se você sair, seu computador será reiniciado.'
         dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
     dialog.add_buttons(getStrYes(), Gtk.ResponseType.YES, getStrNo(), Gtk.ResponseType.NO)
+    dialog.set_default_response(Gtk.ResponseType.NO)
     response = dialog.run()
     dialog.destroy()
     if (response == Gtk.ResponseType.YES):
