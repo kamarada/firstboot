@@ -4,21 +4,9 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from os.path import abspath, dirname, expanduser, join, realpath
-#import gettext
-#import locale
-# Waiting for: https://stackoverflow.com/q/69791625/1657502
 
 
-#domain = 'kamarada-firstboot'
 whereAmI = abspath(dirname(realpath(__file__)))
-#localedir = join(whereAmI, '../locale')
-
-#locale.setlocale(locale.LC_ALL, '')
-#locale.bindtextdomain(domain, localedir)
-
-#gettext.bindtextdomain(domain, localedir)
-#gettext.textdomain(domain)
-#_ = gettext.gettext
 
 resultFilePath = '~/.config/kamarada-firstboot'
 resultFilePath = expanduser(resultFilePath)
@@ -34,7 +22,8 @@ def getStrNo():
     return 'No' if (selectedLanguage == 'en_US') else 'Não'
 
 def onBtnPortugueseClicked(button):
-    #locale.setlocale(locale.LC_ALL, 'pt_BR.utf8') # Currently, this line does nothing (https://stackoverflow.com/q/69791625/1657502)
+    # Maybe there is a better way to translate the interface
+    # https://stackoverflow.com/q/69791625/1657502)
     global selectedLanguage
     selectedLanguage = 'pt_BR'
     btnBack.set_label('Voltar')
@@ -50,7 +39,6 @@ def onBtnPortugueseClicked(button):
     stack.set_visible_child(grdTryInstall)
 
 def onBtnEnglishClicked(button):
-    #locale.setlocale(locale.LC_ALL, 'en_US.utf8') # Currently, this line does nothing (https://stackoverflow.com/q/69791625/1657502)
     global selectedLanguage
     selectedLanguage = 'en_US'
     btnBack.set_label('Back')
@@ -66,7 +54,6 @@ def onBtnEnglishClicked(button):
     stack.set_visible_child(grdTryInstall)
 
 def onBtnBackClicked(button):
-    #locale.setlocale(locale.LC_ALL, 'en_US.utf8') # Currently, this line does nothing (https://stackoverflow.com/q/69791625/1657502)
     global selectedLanguage
     selectedLanguage = 'en_US'
     btnBack.hide()
@@ -161,7 +148,6 @@ def writeResult():
     resultFile.close()
 
 builder = Gtk.Builder()
-#builder.set_translation_domain(domain)
 builder.add_from_file(join(whereAmI, 'kamarada-firstboot.ui'))
 
 headerBar = builder.get_object('headerBar')

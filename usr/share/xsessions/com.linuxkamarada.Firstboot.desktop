@@ -1,4 +1,0 @@
-[Desktop Entry]
-Name=Kamarada Firstboot
-Exec=/usr/bin/gnome-session --session=kamarada-firstboot
-DesktopNames=Kamarada-Firstboot;GNOME;

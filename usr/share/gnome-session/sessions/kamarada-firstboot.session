@@ -1,3 +1,0 @@
-[GNOME Session]
-Name=Kiosk
-RequiredComponents=com.linuxkamarada.Firstboot.WindowManager;com.linuxkamarada.Firstboot.Script;
