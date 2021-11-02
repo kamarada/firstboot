@@ -94,8 +94,10 @@ def onBtnTryClicked(button):
     mainWindow.close()
 
 def onBtnInstallClicked(button):
-    print('Install')
-    # TODO Launch installer
+    global selectedAction
+    selectedAction = 'Install'
+    writeResult()
+    mainWindow.close()
 
 def writeResult():
     resultFile = open(resultFilePath, 'w+')

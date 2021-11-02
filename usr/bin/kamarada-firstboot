@@ -32,7 +32,7 @@ prepare() {
 }
 
 run() {
-    mkdir ~/.config
+    mkdir -p ~/.config
     touch ~/.config/kamarada-firstboot
     while [ -e ~/.config/kamarada-firstboot ]
     do
@@ -50,13 +50,20 @@ run() {
         SELECTED_LANGUAGE=$2
 
         case "$SELECTED_ACTION" in
-            Reboot)
-                sudo reboot
-                break;;
             Try)
                 rm ~/.config/kamarada-firstboot
                 sudo $0 --try $SELECTED_LANGUAGE
-                break;;
+                break
+                ;;
+
+            Install)
+                LANG=$SELECTED_LANGUAGE kdesu -c /usr/bin/calamares
+                ;;
+
+            Reboot)
+                sudo reboot
+                break
+                ;;
         esac
     done
 }
@@ -76,12 +83,12 @@ try() {
 case "$1" in
     --prepare)
         prepare
-        break;;
+        ;;
     --try)
         try $2
-        break;;
+        ;;
     *)
         run
-        break;;
+        ;;
 esac
 
