@@ -46,8 +46,8 @@ run() {
         # https://stackoverflow.com/a/1478245/1657502
         set -- junk $RESULT
         shift
-        SELECTED_ACTION=$1
-        SELECTED_LANGUAGE=$2
+        SELECTED_LANGUAGE=$1
+        SELECTED_ACTION=$2
 
         case "$SELECTED_ACTION" in
             Try)

@@ -3,7 +3,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-from os.path import abspath, dirname, expanduser, join, realpath
+from os.path import abspath, dirname, exists, expanduser, join, realpath
 
 
 whereAmI = abspath(dirname(realpath(__file__)))
@@ -143,9 +143,8 @@ def onClose(widget, event):
     return True
 
 def writeResult():
-    resultFile = open(resultFilePath, 'w+')
-    resultFile.write(selectedAction + '\n' + selectedLanguage)
-    resultFile.close()
+    with open(resultFilePath, 'w+') as resultFile:
+        resultFile.write(selectedLanguage + '\n' + selectedAction)
 
 builder = Gtk.Builder()
 builder.add_from_file(join(whereAmI, 'kamarada-firstboot.ui'))
@@ -188,6 +187,20 @@ stack.add_named(grdTryInstall, 'grdTryInstall')
 mainWindow = builder.get_object('mainWindow')
 mainWindow.connect('delete-event', onClose)
 mainWindow.connect('destroy', Gtk.main_quit)
+
+# Check if returning from the installer
+if (exists(resultFilePath)):
+    with open(resultFilePath, 'r') as resultFile:
+        firstLine = resultFile.readline()
+        secondLine = resultFile.readline()
+        if (secondLine == 'Install'):
+            # Returning from the installer (maybe it failed)
+            # Presents the previously selected language
+            if (firstLine == 'pt_BR\n'):
+                onBtnPortugueseClicked(btnPortuguese)
+            elif (firstLine == 'en_US\n'):
+                onBtnEnglishClicked(btnEnglish)
+
 mainWindow.show()
 
 Gtk.main()
