@@ -60,6 +60,11 @@ run() {
                 LANG=$SELECTED_LANGUAGE kdesu -c /usr/bin/calamares
                 ;;
 
+            Shutdown)
+                sudo shutdown -h now
+                break
+                ;;
+
             Reboot)
                 sudo reboot
                 break

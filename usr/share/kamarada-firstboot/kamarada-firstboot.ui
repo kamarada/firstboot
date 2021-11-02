@@ -7,7 +7,6 @@
     <property name="window_position">center</property>
     <property name="default_width">640</property>
     <property name="default_height">480</property>
-    <property name="type_hint">dialog</property>
     <child type="titlebar">
       <object class="GtkHeaderBar" id="headerBar">
         <property name="visible">True</property>
@@ -22,6 +21,34 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
           </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnReboot">
+            <property name="visible">False</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="image">imgReboot</property>
+            <property name="always_show_image">True</property>
+            <property name="tooltip-text" translatable="yes">Reboot</property>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnShutdown">
+            <property name="visible">False</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="image">imgShutdown</property>
+            <property name="always_show_image">True</property>
+            <property name="tooltip-text" translatable="yes">Shutdown</property>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+            <property name="position">2</property>
+          </packing>
         </child>
       </object>
     </child>
@@ -163,6 +190,16 @@
         <property name="top_attach">0</property>
       </packing>
     </child>
+  </object>
+  <object class="GtkImage" id="imgShutdown">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">system-shutdown-symbolic</property>
+  </object>
+  <object class="GtkImage" id="imgReboot">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">system-reboot-symbolic</property>
   </object>
   <object class="GtkImage" id="imgTry">
     <property name="visible">True</property>
