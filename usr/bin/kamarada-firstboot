@@ -30,6 +30,7 @@ prepare() {
     baseUpdateSysConfig /etc/sysconfig/displaymanager DISPLAYMANAGER_AUTOLOGIN linux
     baseUpdateSysConfig /etc/sysconfig/windowmanager DEFAULT_WM openbox
     echo "kamarada-firstboot" >> /home/linux/.config/openbox/autostart
+    echo "enabled=False" > /home/linux/.config/user-dirs.conf
 }
 
 run() {
@@ -79,6 +80,7 @@ try() {
     baseUpdateSysConfig /etc/sysconfig/windowmanager DEFAULT_WM gnome
     # Delete the last line of the file
     sed -i '$d' /home/linux/.config/openbox/autostart
+    rm /home/linux/.config/user-dirs.conf
 
     SELECTED_LANGUAGE=$1
     /usr/sbin/kamarada-setup $SELECTED_LANGUAGE
