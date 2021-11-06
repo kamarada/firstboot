@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Borrowed from /usr/lib/python3.6/site-packages/kiwi/config/functions.sh
+# From: https://github.com/OSInside/kiwi/blob/v9.23.20/kiwi/config/functions.sh
+# Or: /usr/lib/python3.6/site-packages/kiwi/config/functions.sh (python3-kiwi package)
 function baseUpdateSysConfig {
     # /.../
     # Update the contents of a sysconfig variable
