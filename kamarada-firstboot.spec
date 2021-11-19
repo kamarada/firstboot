@@ -10,6 +10,7 @@ Requires:       calamares
 Requires:       gnome-shell
 # kdesu
 Requires:       kde-cli-tools5
+Requires:       libqt5-qtstyleplugins-platformtheme-gtk2
 Requires:       live-langset-data
 Requires:       openbox
 Requires:       python3

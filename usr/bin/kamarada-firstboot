@@ -62,7 +62,7 @@ run() {
                 ;;
 
             Install)
-                LANG=$SELECTED_LANGUAGE kdesu -c /usr/bin/calamares
+                LANG=$SELECTED_LANGUAGE QT_QPA_PLATFORMTHEME="gtk2" kdesu -c /usr/bin/calamares
                 ;;
 
             Shutdown)
