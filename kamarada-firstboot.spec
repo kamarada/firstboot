@@ -37,9 +37,6 @@ Try / Install welcome screen presented to the user when the Live system boots.
 mkdir -p %{buildroot}%{_bindir}/
 install -m0755 usr/bin/kamarada-firstboot %{buildroot}%{_bindir}/
 
-mkdir -p %{buildroot}%{_sbindir}/
-install -m0755 usr/sbin/kamarada-setup %{buildroot}%{_sbindir}/
-
 mkdir -p %{buildroot}%{_datadir}/kamarada-firstboot/png/
 install -m0644 usr/share/kamarada-firstboot/kamarada-firstboot.{py,ui} %{buildroot}%{_datadir}/kamarada-firstboot/
 install -m0644 usr/share/kamarada-firstboot/png/* %{buildroot}%{_datadir}/kamarada-firstboot/png/
@@ -47,7 +44,6 @@ install -m0644 usr/share/kamarada-firstboot/png/* %{buildroot}%{_datadir}/kamara
 
 %files
 %{_bindir}/kamarada-firstboot
-%{_sbindir}/kamarada-setup
 %{_datadir}/kamarada-firstboot/
 
 
