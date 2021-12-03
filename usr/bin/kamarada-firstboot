@@ -86,30 +86,7 @@ try() {
     rm /home/linux/.config/user-dirs.conf
 
     SELECTED_LANGUAGE=$1
-
-    # Set locale
-    /usr/sbin/langset.sh $SELECTED_LANGUAGE
-
-    case "$SELECTED_LANGUAGE" in
-        en_US)
-            baseUpdateSysConfig /etc/sysconfig/keyboard YAST_KEYBOARD "english-us,pc104"
-            #baseUpdateSysConfig /etc/sysconfig/clock DEFAULT_TIMEZONE "US/Eastern"
-            echo "DEFAULT_TIMEZONE=\"US/Eastern\"" >> /etc/sysconfig/clock
-            rm /etc/adjtime
-            break
-            ;;
-
-        pt_BR)
-            baseUpdateSysConfig /etc/sysconfig/keyboard YAST_KEYBOARD "portugese-br,pc104"
-            baseUpdateSysConfig /etc/sysconfig/language RC_LANG "pt_BR.UTF-8"
-            baseUpdateSysConfig /etc/sysconfig/language ROOT_USES_LANG "yes"
-            baseUpdateSysConfig /etc/sysconfig/language INSTALLED_LANGUAGES "pt_BR"
-            #baseUpdateSysConfig /etc/sysconfig/clock DEFAULT_TIMEZONE "Brazil/East"
-            echo "DEFAULT_TIMEZONE=\"Brazil/East\"" >> /etc/sysconfig/clock
-            echo "pool pool.ntp.br iburst" > /etc/chrony.d/pool.conf
-            break
-            ;;
-        esac
+    /usr/sbin/kamarada-setup $SELECTED_LANGUAGE
 
     systemctl restart display-manager
 }
