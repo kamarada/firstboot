@@ -45,5 +45,6 @@ if [ "$SELECTED_LANGUAGE" == "pt_BR" ]; then
     baseUpdateSysConfigFailSafe /etc/sysconfig/language INSTALLED_LANGUAGES "pt_BR"
     baseUpdateSysConfigFailSafe /etc/sysconfig/clock DEFAULT_TIMEZONE "Brazil/East"
     echo "pool pool.ntp.br iburst" > /etc/chrony.d/pool.conf
+    usermod -c "Usuário da mídia Live" linux
 fi
 
