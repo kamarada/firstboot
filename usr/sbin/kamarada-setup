@@ -1,21 +1,36 @@
 #!/bin/bash
 
-# From: https://github.com/OSInside/kiwi/blob/v9.23.20/kiwi/config/functions.sh
-# Or: /usr/lib/python3.6/site-packages/kiwi/config/functions.sh (python3-kiwi package)
-function baseUpdateSysConfig {
+# Based on:
+#
+# 1) https://github.com/OSInside/kiwi/blob/v9.23.20/kiwi/config/functions.sh
+#    Or: /usr/lib/python3.6/site-packages/kiwi/config/functions.sh (python3-kiwi package)
+#
+# 2) https://build.opensuse.org/package/view_file/openSUSE:Factory/live-langset-data/langset.sh?expand=1
+#    Or: /usr/sbin/langset.sh (live-langset-data package)
+#
+# 3) How to check if sed has changed a file
+#    https://stackoverflow.com/a/12144347/1657502
+#
+function baseUpdateSysConfigFailSafe {
     # /.../
     # Update the contents of a sysconfig variable
     # ----
     local FILE=$1
-    local VAR
-    local VAL
-    if [ -f "${FILE}" ];then
-        VAR=$2
-        VAL=$3
-        eval sed -i "s'@^\($VAR=\).*\$@\1\\\"$VAL\\\"@'" "${FILE}"
-    else
-        echo "warning: config file $FILE not found"
+    local VAR=$2
+    local VAL=$3
+    # If the file does not exist, create it
+    if [ ! -f "${FILE}" ]; then
+        touch "${FILE}"
     fi
+    # If VAR is set, update it
+    sed -i.bak -e "s#$VAR=\".*#$VAR=\"$VAL\"#" "${FILE}"
+    # diff returns 0 if the file was not changed (i.e. sed made no substitution)
+    if diff "${FILE}" "${FILE}.bak" &> /dev/null; then
+        # If VAR is not set, define it
+        echo "$VAR=\"$VAL\"" >> "${FILE}"
+    fi
+    # Delete the backup file created by sed
+    rm "${FILE}.bak"
 }
 
 SELECTED_LANGUAGE=$1
@@ -23,24 +38,12 @@ SELECTED_LANGUAGE=$1
 # Set locale
 /usr/sbin/langset.sh $SELECTED_LANGUAGE
 
-case "$SELECTED_LANGUAGE" in
-    en_US)
-        baseUpdateSysConfig /etc/sysconfig/keyboard YAST_KEYBOARD "english-us,pc104"
-        #baseUpdateSysConfig /etc/sysconfig/clock DEFAULT_TIMEZONE "US/Eastern"
-        echo "DEFAULT_TIMEZONE=\"US/Eastern\"" >> /etc/sysconfig/clock
-        rm /etc/adjtime
-        break
-        ;;
-
-    pt_BR)
-        baseUpdateSysConfig /etc/sysconfig/keyboard YAST_KEYBOARD "portugese-br,pc104"
-        baseUpdateSysConfig /etc/sysconfig/language RC_LANG "pt_BR.UTF-8"
-        baseUpdateSysConfig /etc/sysconfig/language ROOT_USES_LANG "yes"
-        baseUpdateSysConfig /etc/sysconfig/language INSTALLED_LANGUAGES "pt_BR"
-        #baseUpdateSysConfig /etc/sysconfig/clock DEFAULT_TIMEZONE "Brazil/East"
-        echo "DEFAULT_TIMEZONE=\"Brazil/East\"" >> /etc/sysconfig/clock
-        echo "pool pool.ntp.br iburst" > /etc/chrony.d/pool.conf
-        break
-        ;;
-    esac
+# Let's touch openSUSE defaults only if the user has selected Brazilian Portuguese
+if [ "$SELECTED_LANGUAGE" == "pt_BR" ]; then
+    baseUpdateSysConfigFailSafe /etc/sysconfig/keyboard YAST_KEYBOARD "portugese-br,pc104"
+    baseUpdateSysConfigFailSafe /etc/sysconfig/language ROOT_USES_LANG "yes"
+    baseUpdateSysConfigFailSafe /etc/sysconfig/language INSTALLED_LANGUAGES "pt_BR"
+    baseUpdateSysConfigFailSafe /etc/sysconfig/clock DEFAULT_TIMEZONE "Brazil/East"
+    echo "pool pool.ntp.br iburst" > /etc/chrony.d/pool.conf
+fi
 
