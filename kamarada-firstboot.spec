@@ -4,7 +4,7 @@ Release:        0
 Summary:        Kamarada Firstboot
 License:        GPL-3.0
 Url:            https://gitlab.com/kamarada/firstboot/
-Source:         https://gitlab.com/kamarada/firstboot/-/archive/%{version}-dev/firstboot-%{version}-dev.tar.gz#/%{name}.tar.gz
+Source:         https://gitlab.com/kamarada/firstboot/-/archive/%{version}/firstboot-%{version}.tar.gz#/%{name}.tar.gz
 
 Requires:       calamares
 Requires:       gnome-shell
