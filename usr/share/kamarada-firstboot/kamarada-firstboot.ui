@@ -72,8 +72,9 @@
 
   <object class="GtkGrid" id="grdLanguage">
     <property name="column-homogeneous">True</property>
-    <property name="column-spacing">10</property>
+    <property name="column-spacing">20</property>
     <property name="row-spacing">10</property>
+    <property name="valign">center</property>
     <child>
       <object class="GtkLabel">
         <property name="justify">center</property>
@@ -107,6 +108,7 @@
         <property name="justify">center</property>
         <property name="label">Escolha o idioma de sua preferência clicando na opção desejada abaixo.</property>
         <property name="margin-bottom">10</property>
+        <property name="valign">start</property>
         <property name="wrap">True</property>
         <layout>
           <property name="column">0</property>
@@ -119,6 +121,7 @@
         <property name="justify">center</property>
         <property name="label">Choose your preferred language by clicking the desired option below.</property>
         <property name="margin-bottom">10</property>
+        <property name="valign">start</property>
         <property name="wrap">True</property>
         <layout>
           <property name="column">1</property>
@@ -128,23 +131,28 @@
     </child>
     <child>
       <object class="GtkButton" id="btnPortuguese">
+        <property name="valign">center</property>
         <property name="child">
           <object class="GtkBox">
-            <property name="margin-bottom">10</property>
-            <property name="margin-end">10</property>
-            <property name="margin-start">10</property>
-            <property name="margin-top">10</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkPicture" id="imgPortuguese">
                 <property name="halign">center</property>
-                <property name="valign">start</property>
+                <property name="margin-bottom">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-start">10</property>
+                <property name="margin-top">10</property>
+                <property name="valign">center</property>
               </object>  
             </child>
             <child>
               <object class="GtkLabel">
+                <property name="halign">center</property>
                 <property name="label">Português Brasileiro</property>
+                <property name="margin-bottom">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-start">10</property>
+                <property name="valign">center</property>
               </object>
             </child>
           </object>
@@ -158,23 +166,28 @@
     </child>
     <child>
       <object class="GtkButton" id="btnEnglish">
+        <property name="valign">center</property>
         <property name="child">
           <object class="GtkBox">
-            <property name="margin-bottom">10</property>
-            <property name="margin-end">10</property>
-            <property name="margin-start">10</property>
-            <property name="margin-top">10</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkPicture" id="imgEnglish">
                 <property name="halign">center</property>
-                <property name="valign">start</property>
+                <property name="margin-bottom">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-start">10</property>
+                <property name="margin-top">10</property>
+                <property name="valign">center</property>
               </object>  
             </child>
             <child>
               <object class="GtkLabel">
+                <property name="halign">center</property>
                 <property name="label">International English</property>
+                <property name="margin-bottom">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-start">10</property>
+                <property name="valign">center</property>
               </object>
             </child>
           </object>
@@ -190,27 +203,33 @@
 
   <object class="GtkGrid" id="grdTryInstall">
     <property name="column-homogeneous">True</property>
-    <property name="column-spacing">10</property>
+    <property name="column-spacing">20</property>
     <property name="row-spacing">10</property>
+    <property name="valign">center</property>
     <child>
       <object class="GtkButton" id="btnTry">
+        <property name="valign">center</property>
         <property name="child">
           <object class="GtkBox">
-            <property name="margin-bottom">10</property>
-            <property name="margin-end">10</property>
-            <property name="margin-start">10</property>
-            <property name="margin-top">10</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkPicture" id="imgTry">
                 <property name="halign">center</property>
-                <property name="valign">start</property>
+                <property name="margin-bottom">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-start">10</property>
+                <property name="margin-top">10</property>
+                <property name="valign">center</property>
               </object>  
             </child>
             <child>
               <object class="GtkLabel" id="lbTryButton">
+                <property name="halign">center</property>
                 <property name="label">Try Linux Kamarada</property>
+                <property name="margin-bottom">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-start">10</property>
+                <property name="valign">center</property>
               </object>
             </child>
           </object>
@@ -224,23 +243,28 @@
     </child>
     <child>
       <object class="GtkButton" id="btnInstall">
+        <property name="valign">center</property>
         <property name="child">
           <object class="GtkBox">
-            <property name="margin-bottom">10</property>
-            <property name="margin-end">10</property>
-            <property name="margin-start">10</property>
-            <property name="margin-top">10</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">10</property>
             <child>
               <object class="GtkPicture" id="imgInstall">
                 <property name="halign">center</property>
-                <property name="valign">start</property>
+                <property name="margin-bottom">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-start">10</property>
+                <property name="margin-top">10</property>
+                <property name="valign">center</property>
               </object>  
             </child>
             <child>
               <object class="GtkLabel" id="lbInstallButton">
+                <property name="halign">center</property>
                 <property name="label">Install Linux Kamarada</property>
+                <property name="margin-bottom">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-start">10</property>
+                <property name="valign">center</property>
               </object>
             </child>
           </object>
@@ -254,11 +278,9 @@
     </child>
     <child>
       <object class="GtkLabel" id="lbTryInfo">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="halign">center</property>
-        <property name="label" translatable="yes">You can try Linux Kamarada without making any changes to your computer, directly from this live medium.</property>
         <property name="justify">center</property>
+        <property name="label" translatable="yes">You can try Linux Kamarada without making any changes to your computer, directly from this live medium.</property>
+        <property name="valign">start</property>
         <property name="wrap">True</property>
         <layout>
           <property name="column">0</property>
@@ -268,11 +290,9 @@
     </child>
     <child>
       <object class="GtkLabel" id="lbInstallInfo">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="halign">center</property>
-        <property name="label" translatable="yes">Or, if you're ready, you can install Linux Kamarada alongside (or instead of) your current operating system.</property>
         <property name="justify">center</property>
+        <property name="label" translatable="yes">Or, if you're ready, you can install Linux Kamarada alongside (or instead of) your current operating system.</property>        
+        <property name="valign">start</property>
         <property name="wrap">True</property>
         <layout>
           <property name="column">1</property>
