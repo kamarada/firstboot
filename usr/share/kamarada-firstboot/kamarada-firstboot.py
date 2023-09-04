@@ -1,206 +1,217 @@
 #!/usr/bin/python3
 
 import gi
-gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+import sys
+gi.require_version('Gtk', '4.0')
+from gi.repository import Gtk, Gdk
 from os.path import abspath, dirname, exists, expanduser, join, realpath
 
 
 whereAmI = abspath(dirname(realpath(__file__)))
 
-resultFilePath = '~/.config/kamarada-firstboot'
-resultFilePath = expanduser(resultFilePath)
 
-selectedLanguage = 'en_US'
-selectedAction = ''
+APPLICATION_WINDOW = join(whereAmI, 'kamarada-firstboot.ui')
+CUSTOM_CSS_STYLESHEET = join(whereAmI, 'kamarada-firstboot.css')
 
 
-def getStrYes():
-    return 'Yes' if (selectedLanguage == 'en_US') else 'Sim'
+@Gtk.Template(filename=APPLICATION_WINDOW)
+class FirstBootMainWindow(Gtk.ApplicationWindow):
+    __gtype_name__ = 'FirstBootMainWindow'
 
-def getStrNo():
-    return 'No' if (selectedLanguage == 'en_US') else 'Não'
+    btnBack = Gtk.Template.Child()
+    btnEnglish = Gtk.Template.Child()
+    btnPortuguese = Gtk.Template.Child()
+    btnReboot = Gtk.Template.Child()
+    btnShutdown = Gtk.Template.Child()
+    grdLanguage = Gtk.Template.Child()
+    grdTryInstall = Gtk.Template.Child()
+    headerBar = Gtk.Template.Child()
+    imgEnglish = Gtk.Template.Child()
+    imgInstall = Gtk.Template.Child()
+    imgPortuguese = Gtk.Template.Child()
+    imgTry = Gtk.Template.Child()
+    lbInstallButton = Gtk.Template.Child()
+    lbInstallInfo = Gtk.Template.Child()
+    lbTryButton = Gtk.Template.Child()
+    lbTryInfo = Gtk.Template.Child()
+    stack = Gtk.Template.Child()
+    subtitle = Gtk.Template.Child()
+    title = Gtk.Template.Child()
 
-def onBtnPortugueseClicked(button):
-    # Maybe there is a better way to translate the interface
-    # https://stackoverflow.com/q/69791625/1657502)
-    global selectedLanguage
-    selectedLanguage = 'pt_BR'
-    btnBack.set_label('Voltar')
-    headerBar.set_title('Bem-vindo')
-    headerBar.set_subtitle('')
-    btnShutdown.set_tooltip_text('Desligar')
-    btnReboot.set_tooltip_text('Reiniciar')
-    headerBar.show_all()
-    btnTry.set_label('Experimentar o Linux Kamarada')
-    lbTry.set_label('Você pode experimentar o Linux Kamarada sem fazer quaisquer alterações no seu computador, diretamente desta mídia live.')
-    btnInstall.set_label('Instalar o Linux Kamarada')
-    lbInstall.set_label('Ou, se estiver pronto, você poderá instalar o Linux Kamarada juntamente com, ou no lugar do, seu sistema operacional atual.')
-    stack.set_visible_child(grdTryInstall)
-
-def onBtnEnglishClicked(button):
-    global selectedLanguage
+    resultFilePath = expanduser('~/.config/kamarada-firstboot')
     selectedLanguage = 'en_US'
-    btnBack.set_label('Back')
-    headerBar.set_title('Welcome')
-    headerBar.set_subtitle('')
-    btnShutdown.set_tooltip_text('Shutdown')
-    btnReboot.set_tooltip_text('Reboot')
-    headerBar.show_all()
-    btnTry.set_label('Try Linux Kamarada')
-    lbTry.set_label('You can try Linux Kamarada without making any changes to your computer, directly from this live medium.')
-    btnInstall.set_label('Install Linux Kamarada')
-    lbInstall.set_label('Or, if you\'re ready, you can install Linux Kamarada alongside (or instead of) your current operating system.')
-    stack.set_visible_child(grdTryInstall)
+    selectedAction = ''
 
-def onBtnBackClicked(button):
-    global selectedLanguage
-    selectedLanguage = 'en_US'
-    btnBack.hide()
-    btnShutdown.hide()
-    btnReboot.hide()
-    headerBar.set_title('Bem-vindo')
-    headerBar.set_subtitle('Welcome')
-    stack.set_visible_child_full('grdLanguage', Gtk.StackTransitionType.SLIDE_RIGHT)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-def onBtnShutdownClicked(button):
-    global selectedAction
-    dialog = Gtk.MessageDialog(transient_for=mainWindow,
-                               modal=True,
-                               flags=0,
-                               message_type=Gtk.MessageType.QUESTION)
-    if (selectedLanguage == 'en_US'):
-        dialog.props.text = 'Your computer is going to shutdown.'
-        dialog.props.secondary_text = 'Are you sure you want to continue?'
-    elif (selectedLanguage == 'pt_BR'):
-        dialog.props.text = 'Seu computador será desligado.'
-        dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
-    dialog.add_buttons(getStrYes(), Gtk.ResponseType.YES, getStrNo(), Gtk.ResponseType.NO)
-    dialog.set_default_response(Gtk.ResponseType.NO)
-    response = dialog.run()
-    dialog.destroy()
-    if (response == Gtk.ResponseType.YES):
-        selectedAction = 'Shutdown'
-        writeResult()
-        mainWindow.close()
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_path(CUSTOM_CSS_STYLESHEET)
+        Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
-def onBtnRebootClicked(button):
-    global selectedAction
-    dialog = Gtk.MessageDialog(transient_for=mainWindow,
-                               modal=True,
-                               flags=0,
-                               message_type=Gtk.MessageType.QUESTION)
-    if (selectedLanguage == 'en_US'):
-        dialog.props.text = 'Your computer is going to reboot.'
-        dialog.props.secondary_text = 'Are you sure you want to continue?'
-    elif (selectedLanguage == 'pt_BR'):
-        dialog.props.text = 'Seu computador será reiniciado.'
-        dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
-    dialog.add_buttons(getStrYes(), Gtk.ResponseType.YES, getStrNo(), Gtk.ResponseType.NO)
-    dialog.set_default_response(Gtk.ResponseType.NO)
-    response = dialog.run()
-    dialog.destroy()
-    if (response == Gtk.ResponseType.YES):
-        selectedAction = 'Reboot'
-        writeResult()
-        mainWindow.close()
+        self.imgPortuguese.set_filename(join(whereAmI, 'png/BR.png'))
 
-def onBtnTryClicked(button):
-    global selectedAction
-    selectedAction = 'Try'
-    writeResult()
-    mainWindow.close()
+        self.imgEnglish.set_filename(join(whereAmI, 'png/international-english.png'))
 
-def onBtnInstallClicked(button):
-    global selectedAction
-    selectedAction = 'Install'
-    writeResult()
-    mainWindow.close()
+        self.imgTry.set_filename(join(whereAmI, 'png/try.png'))
 
-def onClose(widget, event):
-    global selectedAction
-    if selectedAction:
-        return False
-    dialog = Gtk.MessageDialog(transient_for=mainWindow,
-                               modal=True,
-                               flags=0,
-                               message_type=Gtk.MessageType.QUESTION)
-    if (selectedLanguage == 'en_US'):
-        dialog.props.text = 'If you quit, your computer is going to reboot.'
-        dialog.props.secondary_text = 'Are you sure you want to continue?'
-    elif (selectedLanguage == 'pt_BR'):
-        dialog.props.text = 'Se você sair, seu computador será reiniciado.'
-        dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
-    dialog.add_buttons(getStrYes(), Gtk.ResponseType.YES, getStrNo(), Gtk.ResponseType.NO)
-    dialog.set_default_response(Gtk.ResponseType.NO)
-    response = dialog.run()
-    dialog.destroy()
-    if (response == Gtk.ResponseType.YES):
-        selectedAction = 'Reboot'
-        writeResult()
-        return False
-    # Otherwise keep the application open
-    return True
+        self.imgInstall.set_filename(join(whereAmI, 'png/install.png'))
 
-def writeResult():
-    with open(resultFilePath, 'w+') as resultFile:
-        resultFile.write(selectedLanguage + '\n' + selectedAction)
+        self.stack.add_named(self.grdLanguage, 'grdLanguage')
+        self.stack.add_named(self.grdTryInstall, 'grdTryInstall')
 
-builder = Gtk.Builder()
-builder.add_from_file(join(whereAmI, 'kamarada-firstboot.ui'))
+        self.connect('close-request', self.onCloseRequest)
 
-headerBar = builder.get_object('headerBar')
+        # Check if returning from the installer
+        if (exists(self.resultFilePath)):
+            with open(self.resultFilePath, 'r') as resultFile:
+                firstLine = resultFile.readline()
+                secondLine = resultFile.readline()
+                if (secondLine == 'Install'):
+                    # Returning from the installer (maybe it failed)
+                    # Presents the previously selected language
+                    if (firstLine == 'pt_BR\n'):
+                        self.onBtnPortugueseClicked(self.btnPortuguese)
+                    elif (firstLine == 'en_US\n'):
+                        self.onBtnEnglishClicked(self.btnEnglish)
 
-grdLanguage = builder.get_object('grdLanguage')
+    def getStrYes(self):
+        return 'Yes' if (self.selectedLanguage == 'en_US') else 'Sim'
 
-btnPortuguese = builder.get_object('btnPortuguese')
-btnPortuguese.connect('clicked', onBtnPortugueseClicked)
+    def getStrNo(self):
+        return 'No' if (self.selectedLanguage == 'en_US') else 'Não'
+    
+    def writeResultAndClose(self, action):
+        self.selectedAction = action
+        with open(self.resultFilePath, 'w+') as resultFile:
+            resultFile.write(self.selectedLanguage + '\n' + self.selectedAction)
+        self.close()
 
-btnEnglish = builder.get_object('btnEnglish')
-btnEnglish.connect('clicked', onBtnEnglishClicked)
+    @Gtk.Template.Callback()
+    def onBtnPortugueseClicked(self, button):
+        # Maybe there is a better way to translate the interface
+        # https://stackoverflow.com/q/69791625/1657502
+        self.selectedLanguage = 'pt_BR'
+        self.btnBack.set_label('Voltar')
+        self.btnBack.show()
+        self.title.set_label('Bem-vindo')
+        self.subtitle.set_label('')
+        self.btnShutdown.set_tooltip_text('Desligar')
+        self.btnShutdown.show()
+        self.btnReboot.set_tooltip_text('Reiniciar')
+        self.btnReboot.show()
+        self.lbTryButton.set_label('Experimentar o Linux Kamarada')
+        self.lbInstallButton.set_label('Instalar o Linux Kamarada')
+        self.lbTryInfo.set_label('Você pode experimentar o Linux Kamarada sem fazer quaisquer alterações no seu computador, diretamente desta mídia live.')
+        self.lbInstallInfo.set_label('Ou, se estiver pronto, você poderá instalar o Linux Kamarada juntamente com, ou no lugar do, seu sistema operacional atual.')
+        self.stack.set_visible_child(self.grdTryInstall)
 
-grdTryInstall = builder.get_object('grdTryInstall')
+    @Gtk.Template.Callback()
+    def onBtnEnglishClicked(self, button):
+        self.selectedLanguage = 'en_US'
+        self.btnBack.set_label('Back')
+        self.btnBack.show()
+        self.title.set_label('Welcome')
+        self.subtitle.set_label('')
+        self.btnShutdown.set_tooltip_text('Shutdown')
+        self.btnShutdown.show()
+        self.btnReboot.set_tooltip_text('Reboot')
+        self.btnReboot.show()
+        self.lbTryButton.set_label('Try Linux Kamarada')
+        self.lbInstallButton.set_label('Install Linux Kamarada')
+        self.lbTryInfo.set_label('You can try Linux Kamarada without making any changes to your computer, directly from this live medium.')
+        self.lbInstallInfo.set_label('Or, if you\'re ready, you can install Linux Kamarada alongside (or instead of) your current operating system.')
+        self.stack.set_visible_child(self.grdTryInstall)
 
-btnBack = builder.get_object('btnBack')
-btnBack.connect('clicked', onBtnBackClicked)
+    @Gtk.Template.Callback()
+    def onBtnBackClicked(self, button):
+        selectedLanguage = 'en_US'
+        self.btnBack.hide()
+        self.title.set_label('Bem-vindo')
+        self.subtitle.set_label('Welcome')
+        self.btnShutdown.hide()
+        self.btnReboot.hide()
+        self.stack.set_visible_child_full('grdLanguage', Gtk.StackTransitionType.SLIDE_RIGHT)
 
-btnShutdown = builder.get_object('btnShutdown')
-btnShutdown.connect('clicked', onBtnShutdownClicked)
+    @Gtk.Template.Callback()
+    def onBtnShutdownClicked(self, button):
+        dialog = Gtk.MessageDialog(transient_for=self,
+                                   modal=True,
+                                   message_type=Gtk.MessageType.QUESTION)
+        if (self.selectedLanguage == 'en_US'):
+            dialog.props.text = 'Your computer is going to shutdown.'
+            dialog.props.secondary_text = 'Are you sure you want to continue?'
+        elif (self.selectedLanguage == 'pt_BR'):
+            dialog.props.text = 'Seu computador será desligado.'
+            dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
+        dialog.add_buttons(self.getStrYes(), Gtk.ResponseType.YES, self.getStrNo(), Gtk.ResponseType.NO)
+        dialog.set_default_response(Gtk.ResponseType.NO)
+        dialog.connect('response', self.onShutdownDialogResponse)
+        dialog.present()
 
-btnReboot = builder.get_object('btnReboot')
-btnReboot.connect('clicked', onBtnRebootClicked)
+    def onShutdownDialogResponse(self, dialog, response):
+        if (response == Gtk.ResponseType.YES):
+            self.writeResultAndClose('Shutdown')
+        else:
+            dialog.close()
 
-lbTry = builder.get_object('lbTry')
+    @Gtk.Template.Callback()
+    def onBtnRebootClicked(self, button):
+        dialog = Gtk.MessageDialog(transient_for=self,
+                                   modal=True,
+                                   message_type=Gtk.MessageType.QUESTION)
+        if (self.selectedLanguage == 'en_US'):
+            dialog.props.text = 'Your computer is going to reboot.'
+            dialog.props.secondary_text = 'Are you sure you want to continue?'
+        elif (self.selectedLanguage == 'pt_BR'):
+            dialog.props.text = 'Seu computador será reiniciado.'
+            dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
+        dialog.add_buttons(self.getStrYes(), Gtk.ResponseType.YES, self.getStrNo(), Gtk.ResponseType.NO)
+        dialog.set_default_response(Gtk.ResponseType.NO)
+        dialog.connect('response', self.onRebootDialogResponse)
+        dialog.present()
 
-btnTry = builder.get_object('btnTry')
-btnTry.connect('clicked', onBtnTryClicked)
+    def onRebootDialogResponse(self, dialog, response):
+        if (response == Gtk.ResponseType.YES):
+            self.writeResultAndClose('Reboot')
+        else:
+            dialog.close()
 
-lbInstall = builder.get_object('lbInstall')
+    @Gtk.Template.Callback()
+    def onBtnTryClicked(self, button):
+        self.writeResultAndClose('Try')
 
-btnInstall = builder.get_object('btnInstall')
-btnInstall.connect('clicked', onBtnInstallClicked)
+    @Gtk.Template.Callback()
+    def onBtnInstallClicked(self, button):
+        self.writeResultAndClose('Install')
 
-stack = builder.get_object('stack')
-stack.add_named(grdLanguage, 'grdLanguage')
-stack.add_named(grdTryInstall, 'grdTryInstall')
+    def onCloseRequest(self, user_data):
+        if self.selectedAction:
+            return False
+        dialog = Gtk.MessageDialog(transient_for=self,
+                                   modal=True,
+                                   message_type=Gtk.MessageType.QUESTION)
+        if (self.selectedLanguage == 'en_US'):
+            dialog.props.text = 'If you quit, your computer is going to reboot.'
+            dialog.props.secondary_text = 'Are you sure you want to continue?'
+        elif (self.selectedLanguage == 'pt_BR'):
+            dialog.props.text = 'Se você sair, seu computador será reiniciado.'
+            dialog.props.secondary_text = 'Tem certeza de que quer continuar?'
+        dialog.add_buttons(self.getStrYes(), Gtk.ResponseType.YES, self.getStrNo(), Gtk.ResponseType.NO)
+        dialog.set_default_response(Gtk.ResponseType.NO)
+        dialog.connect('response', self.onRebootDialogResponse)
+        dialog.present()
+        return True
 
-mainWindow = builder.get_object('mainWindow')
-mainWindow.connect('delete-event', onClose)
-mainWindow.connect('destroy', Gtk.main_quit)
 
-# Check if returning from the installer
-if (exists(resultFilePath)):
-    with open(resultFilePath, 'r') as resultFile:
-        firstLine = resultFile.readline()
-        secondLine = resultFile.readline()
-        if (secondLine == 'Install'):
-            # Returning from the installer (maybe it failed)
-            # Presents the previously selected language
-            if (firstLine == 'pt_BR\n'):
-                onBtnPortugueseClicked(btnPortuguese)
-            elif (firstLine == 'en_US\n'):
-                onBtnEnglishClicked(btnEnglish)
+class FirstBootApp(Gtk.Application):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
-mainWindow.show()
+    def do_activate(self):
+        self.win = FirstBootMainWindow(application=self)
+        self.win.present()
 
-Gtk.main()
+
+app = FirstBootApp(application_id="com.linuxkamarada.FirstBoot")
+app.run(sys.argv)
