@@ -41,7 +41,7 @@
             <signal name="clicked" handler="onBtnBackClicked"/>
           </object>
         </child>
-        <child>
+        <child type="end">
           <object class="GtkButton" id="btnReboot">
             <property name="icon-name">system-reboot-symbolic</property>
             <property name="tooltip-text" translatable="yes">Reboot</property>
@@ -49,7 +49,7 @@
             <signal name="clicked" handler="onBtnRebootClicked"/>
           </object>
         </child>
-        <child>
+        <child type="end">
           <object class="GtkButton" id="btnShutdown">
             <property name="icon-name">system-shutdown-symbolic</property>
             <property name="tooltip-text" translatable="yes">Shutdown</property>
