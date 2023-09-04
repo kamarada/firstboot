@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon Sep  4 22:40:00 UTC 2023 - Antônio Vinícius Menezes Medeiros <linuxkamarada@gmail.com> - 15.5
+
+- Migrating from GTK3 to GTK4
+
+-------------------------------------------------------------------
 Thu Oct 28 20:00:00 UTC 2021 - Antônio Vinícius Menezes Medeiros <linuxkamarada@gmail.com> - 15.3
 
 - First packaging
