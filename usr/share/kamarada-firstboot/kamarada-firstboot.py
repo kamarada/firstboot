@@ -3,7 +3,7 @@
 import gi
 import sys
 gi.require_version('Gtk', '4.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 from os.path import abspath, dirname, exists, expanduser, join, realpath
 
 
@@ -11,6 +11,7 @@ whereAmI = abspath(dirname(realpath(__file__)))
 
 
 APPLICATION_WINDOW = join(whereAmI, 'kamarada-firstboot.ui')
+CUSTOM_CSS_STYLESHEET = join(whereAmI, 'kamarada-firstboot.css')
 
 
 @Gtk.Template(filename=APPLICATION_WINDOW)
@@ -43,6 +44,10 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_path(CUSTOM_CSS_STYLESHEET)
+        Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
         self.imgPortuguese.set_filename(join(whereAmI, 'png/BR.png'))
 
