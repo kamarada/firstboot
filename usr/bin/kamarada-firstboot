@@ -52,6 +52,8 @@ EOF
 
     echo "enabled=False" > /home/linux/.config/user-dirs.conf
     chown linux:users /home/linux/.config/user-dirs.conf
+
+    systemctl disable kamarada-firstboot
 }
 
 run() {
