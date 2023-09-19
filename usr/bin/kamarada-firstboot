@@ -29,9 +29,27 @@ checkRoot() {
 prepare() {
     checkRoot
     baseUpdateSysConfig /etc/sysconfig/displaymanager DISPLAYMANAGER_AUTOLOGIN linux
-    baseUpdateSysConfig /etc/sysconfig/windowmanager DEFAULT_WM openbox
-    echo "kamarada-firstboot" >> /home/linux/.config/openbox/autostart
-    chown linux:users /home/linux/.config/openbox/autostart
+
+    USER_PATH=$(dbus-send --print-reply=literal --system --dest=org.freedesktop.Accounts /org/freedesktop/Accounts org.freedesktop.Accounts.FindUserById int64:1000)
+    dbus-send --print-reply --system --dest=org.freedesktop.Accounts $USER_PATH org.freedesktop.Accounts.User.SetSessionType string:'wayland'
+    dbus-send --print-reply --system --dest=org.freedesktop.Accounts $USER_PATH org.freedesktop.Accounts.User.SetSession string:'gnome-kiosk-script-wayland'
+
+    mkdir -p /home/linux/.local/bin
+    cat > /home/linux/.local/bin/gnome-kiosk-script <<EOF
+#!/bin/sh
+
+# Sleep for a year
+sleep 8760h
+EOF
+
+    mkdir -p /etc/xdg/autostart
+    cat > /etc/xdg/autostart/kamarada-firstboot.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Name=Kamarada FirstBoot
+Exec=/usr/bin/kamarada-firstboot
+EOF
+
     echo "enabled=False" > /home/linux/.config/user-dirs.conf
     chown linux:users /home/linux/.config/user-dirs.conf
 }
@@ -80,9 +98,13 @@ run() {
 
 try() {
     checkRoot
-    baseUpdateSysConfig /etc/sysconfig/windowmanager DEFAULT_WM gnome
-    # Delete the last line of the file
-    sed -i '$d' /home/linux/.config/openbox/autostart
+
+    USER_PATH=$(dbus-send --print-reply=literal --system --dest=org.freedesktop.Accounts /org/freedesktop/Accounts org.freedesktop.Accounts.FindUserById int64:1000)
+    dbus-send --print-reply --system --dest=org.freedesktop.Accounts $USER_PATH org.freedesktop.Accounts.User.SetSessionType string:'wayland'
+    dbus-send --print-reply --system --dest=org.freedesktop.Accounts $USER_PATH org.freedesktop.Accounts.User.SetSession string:'gnome-wayland'
+
+    rm /home/linux/.local/bin/gnome-kiosk-script
+    rm /etc/xdg/autostart/kamarada-firstboot.desktop
     rm /home/linux/.config/user-dirs.conf
 
     SELECTED_LANGUAGE=$1

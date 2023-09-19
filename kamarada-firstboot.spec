@@ -7,12 +7,12 @@ Url:            https://gitlab.com/kamarada/firstboot/
 Source:         https://gitlab.com/kamarada/firstboot/-/archive/%{version}-dev/firstboot-%{version}-dev.tar.gz#/%{name}.tar.gz
 
 Requires:       calamares
+Requires:       gnome-kiosk
 Requires:       gnome-shell
 # kdesu
 Requires:       kde-cli-tools5
 Requires:       libqt5-qtstyleplugins-platformtheme-gtk2
 Requires:       live-langset-data
-Requires:       openbox
 Requires:       python3
 Requires:       python3-gobject-Gdk
 Requires:       sed
@@ -41,7 +41,7 @@ mkdir -p %{buildroot}%{_sbindir}/
 install -m0755 usr/sbin/kamarada-setup %{buildroot}%{_sbindir}/
 
 mkdir -p %{buildroot}%{_datadir}/kamarada-firstboot/png/
-install -m0644 usr/share/kamarada-firstboot/kamarada-firstboot.{py,ui} %{buildroot}%{_datadir}/kamarada-firstboot/
+install -m0644 usr/share/kamarada-firstboot/kamarada-firstboot.{css,py,ui} %{buildroot}%{_datadir}/kamarada-firstboot/
 install -m0644 usr/share/kamarada-firstboot/png/* %{buildroot}%{_datadir}/kamarada-firstboot/png/
 
 
