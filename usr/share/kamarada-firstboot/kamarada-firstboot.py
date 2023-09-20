@@ -105,7 +105,6 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
             self._rebootDialogText = 'Your computer is going to reboot.'
             self._areYouSure = 'Are you sure you want to continue?'
             self.btnBack.set_label('Back')
-            self.title.set_label('Welcome')
             self.btnShutdown.set_tooltip_text('Shutdown')
             self.btnReboot.set_tooltip_text('Reboot')
             self.lbTryButton.set_label('Try Linux Kamarada')
@@ -119,7 +118,6 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
             self._rebootDialogText = 'Seu computador será reiniciado.'
             self._areYouSure = 'Tem certeza de que quer continuar?'
             self.btnBack.set_label('Voltar')
-            self.title.set_label('Bem-vindo')
             self.btnShutdown.set_tooltip_text('Desligar')
             self.btnReboot.set_tooltip_text('Reiniciar')
             self.lbTryButton.set_label('Experimentar o Linux Kamarada')
@@ -132,6 +130,7 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
         self.firstboot_app.setLanguage('pt_BR')
         self.translateInterface()
         self.btnBack.show()
+        self.title.set_label('Bem-vindo')
         self.subtitle.set_label('')
         self.btnShutdown.show()
         self.btnReboot.show()
@@ -142,6 +141,7 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
         self.firstboot_app.setLanguage('en_US')
         self.translateInterface()
         self.btnBack.show()
+        self.title.set_label('Welcome')
         self.subtitle.set_label('')
         self.btnShutdown.show()
         self.btnReboot.show()
@@ -151,6 +151,7 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
     def onBtnBackClicked(self, button):
         self.firstboot_app.setLanguage('en_US')
         self.btnBack.hide()
+        self.title.set_label('Bem-vindo')
         self.subtitle.set_label('Welcome')
         self.btnShutdown.hide()
         self.btnReboot.hide()
