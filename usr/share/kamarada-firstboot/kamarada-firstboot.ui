@@ -38,7 +38,7 @@
           <object class="GtkButton" id="btnBack">
             <property name="label" translatable="yes">Back</property>
             <property name="visible">False</property>
-            <signal name="clicked" handler="onBtnBackClicked"/>
+            <signal name="clicked" handler="on_btn_back_clicked"/>
           </object>
         </child>
         <child type="end">
@@ -46,7 +46,7 @@
             <property name="icon-name">system-reboot-symbolic</property>
             <property name="tooltip-text" translatable="yes">Reboot</property>
             <property name="visible">False</property>
-            <signal name="clicked" handler="onBtnRebootClicked"/>
+            <signal name="clicked" handler="on_btn_reboot_clicked"/>
           </object>
         </child>
         <child type="end">
@@ -54,7 +54,7 @@
             <property name="icon-name">system-shutdown-symbolic</property>
             <property name="tooltip-text" translatable="yes">Shutdown</property>
             <property name="visible">False</property>
-            <signal name="clicked" handler="onBtnShutdownClicked"/>
+            <signal name="clicked" handler="on_btn_shutdown_clicked"/>
           </object>
         </child>
       </object><!-- headerBar -->
@@ -172,7 +172,7 @@
               <property name="column">0</property>
               <property name="row">0</property>
             </layout>
-            <signal name="clicked" handler="onBtnPortugueseClicked"/>
+            <signal name="clicked" handler="on_btn_portuguese_clicked"/>
           </object>
         </child>
         <child>
@@ -211,7 +211,7 @@
               <property name="column">1</property>
               <property name="row">0</property>
             </layout>
-            <signal name="clicked" handler="onBtnEnglishClicked"/>
+            <signal name="clicked" handler="on_btn_english_clicked"/>
           </object>
         </child>
         <layout>
@@ -272,7 +272,7 @@
               <property name="column">0</property>
               <property name="row">0</property>
             </layout>
-            <signal name="clicked" handler="onBtnTryClicked"/>
+            <signal name="clicked" handler="on_btn_try_clicked"/>
           </object>
         </child>
         <child>
@@ -314,7 +314,7 @@
               <property name="column">1</property>
               <property name="row">0</property>
             </layout>
-            <signal name="clicked" handler="onBtnInstallClicked"/>
+            <signal name="clicked" handler="on_btn_install_clicked"/>
           </object>
         </child>
         <layout>
