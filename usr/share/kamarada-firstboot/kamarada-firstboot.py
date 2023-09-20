@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
 import gi
+import subprocess
 import sys
+import threading
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk, Gdk
 from os.path import abspath, dirname, exists, expanduser, join, realpath
@@ -20,11 +22,21 @@ class FirstBootBackgroundWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self._canClose = False
+        self.connect('close-request', self.onCloseRequest)
+
         self.background_picture = Gtk.Picture.new_for_filename(BACKGROUND_PICTURE)
         self.background_picture.set_keep_aspect_ratio(False)
         self.set_child(self.background_picture)
 
         self.fullscreen()
+
+    def closeFromApp(self):
+        self._canClose = True
+        self.close()
+
+    def onCloseRequest(self, user_data):
+        return ~self._canClose
 
 
 @Gtk.Template(filename=APPLICATION_WINDOW)
@@ -75,16 +87,13 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
 
         self.translateInterface()
 
-        # Check if returning from the installer (maybe it failed)
-        if (self.firstboot_app.getAction() != ''):
-            if (self.firstboot_app.getAction() == 'Install'):
-                # Presents the previously selected language
-                if (self.firstboot_app.getLanguage() == 'pt_BR'):
-                    self.onBtnPortugueseClicked(self.btnPortuguese)
-                elif (self.firstboot_app.getLanguage() == 'en_US'):
-                    self.onBtnEnglishClicked(self.btnEnglish)
-            # Clears the previously selected action
-            self.firstboot_app.setAction('')
+    def launchInstaller(self):
+        subprocess.run([
+            'LANG=' + self.firstboot_app.getLanguage() +
+            ' QT_QPA_PLATFORMTHEME="gtk2"' +
+            ' kdesu -c /usr/bin/calamares'
+        ], shell=True)
+        self.show()
 
     def translateInterface(self):
         # Maybe there is a better way to translate the interface
@@ -161,7 +170,7 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
 
     def onShutdownDialogResponse(self, dialog, response):
         if (response == Gtk.ResponseType.YES):
-            self.firstboot_app.writeResultAndQuit('Shutdown')
+            self.firstboot_app.writeResultAndExit('Shutdown')
         else:
             dialog.close()
 
@@ -179,17 +188,20 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
 
     def onRebootDialogResponse(self, dialog, response):
         if (response == Gtk.ResponseType.YES):
-            self.firstboot_app.writeResultAndQuit('Reboot')
+            self.firstboot_app.writeResultAndExit('Reboot')
         else:
             dialog.close()
 
     @Gtk.Template.Callback()
     def onBtnTryClicked(self, button):
-        self.firstboot_app.writeResultAndQuit('Try')
+        self.firstboot_app.writeResultAndExit('Try')
 
     @Gtk.Template.Callback()
     def onBtnInstallClicked(self, button):
-        self.firstboot_app.writeResultAndQuit('Install')
+        # https://askubuntu.com/a/1486389/560233
+        self.hide()
+        timer = threading.Timer(1, self.launchInstaller)
+        timer.start()
 
     def onCloseRequest(self, user_data):
         if self.firstboot_app.getAction():
@@ -213,14 +225,6 @@ class FirstBootApp(Gtk.Application):
         self.setLanguage('en_US')
         self.setAction('')
 
-        # Check if returning from the installer (maybe it failed)
-        if (exists(RESULT_FILE)):
-            with open(RESULT_FILE, 'r') as resultFile:
-                lines = resultFile.read().splitlines()
-                if (len(lines) > 0):
-                    self.setLanguage(lines[0])
-                    self.setAction(lines[1])
-
         self.connect('activate', self.onActivate)
 
     def getAction(self):
@@ -243,12 +247,13 @@ class FirstBootApp(Gtk.Application):
     def setLanguage(self, value):
         self._language = value
 
-    def writeResultAndQuit(self, action):
+    def writeResultAndExit(self, action):
         self.setAction(action)
         with open(RESULT_FILE, 'w+') as resultFile:
             resultFile.write(self._language + '\n' + self._action)
         self.main_window.close()
-        self.background_window.close()
+        self.background_window.closeFromApp()
+        sys.exit()
 
 
 app = FirstBootApp(application_id="com.linuxkamarada.FirstBoot")

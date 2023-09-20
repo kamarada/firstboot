@@ -81,10 +81,6 @@ run() {
                 break
                 ;;
 
-            Install)
-                LANG=$SELECTED_LANGUAGE QT_QPA_PLATFORMTHEME="gtk2" kdesu -c /usr/bin/calamares
-                ;;
-
             Shutdown)
                 sudo shutdown -h now
                 break
