@@ -166,8 +166,8 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
         dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.QUESTION,
                                    modal=True,
                                    transient_for=self,
-                                   text = self._shutdown_dialog_text,
-                                   secondary_text = self._are_you_sure)
+                                   text=self._shutdown_dialog_text,
+                                   secondary_text=self._are_you_sure)
         dialog.add_buttons(self._yes, Gtk.ResponseType.YES, self._no, Gtk.ResponseType.NO)
         dialog.set_default_response(Gtk.ResponseType.NO)
         dialog.connect('response', self.on_shutdown_dialog_response)
@@ -184,8 +184,8 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
         dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.QUESTION,
                                    modal=True,
                                    transient_for=self,
-                                   text = self._reboot_dialog_text,
-                                   secondary_text = self._are_you_sure)
+                                   text=self._reboot_dialog_text,
+                                   secondary_text=self._are_you_sure)
         dialog.add_buttons(self._yes, Gtk.ResponseType.YES, self._no, Gtk.ResponseType.NO)
         dialog.set_default_response(Gtk.ResponseType.NO)
         dialog.connect('response', self.on_reboot_dialog_response)
@@ -214,8 +214,8 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
         dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.QUESTION,
                                    modal=True,
                                    transient_for=self,
-                                   text = self._reboot_dialog_text,
-                                   secondary_text = self._are_you_sure)
+                                   text=self._reboot_dialog_text,
+                                   secondary_text=self._are_you_sure)
         dialog.add_buttons(self._yes, Gtk.ResponseType.YES, self._no, Gtk.ResponseType.NO)
         dialog.set_default_response(Gtk.ResponseType.NO)
         dialog.connect('response', self.on_reboot_dialog_response)
