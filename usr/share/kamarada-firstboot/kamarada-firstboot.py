@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 
-import gi
+from os.path import abspath, dirname, expanduser, join, realpath
 import subprocess
 import sys
 import threading
+
+import gi
 gi.require_version('Gtk', '4.0')
-from gi.repository import Gtk, Gdk
-from os.path import abspath, dirname, exists, expanduser, join, realpath
+from gi.repository import Gdk, Gtk
 
 
 whereAmI = abspath(dirname(realpath(__file__)))
