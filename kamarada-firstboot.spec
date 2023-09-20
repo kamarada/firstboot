@@ -37,6 +37,9 @@ Try / Install welcome screen presented to the user when the Live system boots.
 mkdir -p %{buildroot}%{_bindir}/
 install -m0755 usr/bin/kamarada-firstboot %{buildroot}%{_bindir}/
 
+mkdir -p %{buildroot}/usr/lib/systemd/system/
+install -m0755 usr/lib/systemd/system/kamarada-firstboot.service %{buildroot}/usr/lib/systemd/system/
+
 mkdir -p %{buildroot}%{_sbindir}/
 install -m0755 usr/sbin/kamarada-setup %{buildroot}%{_sbindir}/
 
@@ -47,6 +50,7 @@ install -m0644 usr/share/kamarada-firstboot/png/* %{buildroot}%{_datadir}/kamara
 
 %files
 %{_bindir}/kamarada-firstboot
+/usr/lib/systemd/system/kamarada-firstboot.service
 %{_sbindir}/kamarada-setup
 %{_datadir}/kamarada-firstboot/
 
