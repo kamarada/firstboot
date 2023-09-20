@@ -71,7 +71,10 @@ class FirstBootMainWindow(Gtk.ApplicationWindow):
 
         css_provider = Gtk.CssProvider()
         css_provider.load_from_path(CUSTOM_CSS_STYLESHEET)
-        Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
         self.imgPortuguese.set_filename(join(whereAmI, 'png/BR.png'))
 
