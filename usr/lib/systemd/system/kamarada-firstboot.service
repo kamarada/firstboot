@@ -1,0 +1,11 @@
+[Unit]
+Description=Kamarada FirstBoot
+After=apparmor.service local-fs.target plymouth-start.service YaST2-Second-Stage.service
+Before=display-manager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/kamarada-firstboot --prepare
+
+[Install]
+WantedBy=default.target

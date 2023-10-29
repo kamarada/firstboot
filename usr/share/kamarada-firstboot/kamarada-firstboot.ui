@@ -1,303 +1,352 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="3.20"/>
-  <object class="GtkApplicationWindow" id="mainWindow">
-    <property name="can_focus">False</property>
-    <property name="window_position">center</property>
-    <property name="default_width">640</property>
-    <property name="default_height">480</property>
-    <child type="titlebar">
+  <requires lib="gtk" version="4.0"/>
+  <template class="FirstBootMainWindow" parent="GtkApplicationWindow">
+    <property name="default-width">640</property>
+    <property name="default-height">480</property>
+    <property name="modal">True</property>
+    <property name="resizable">False</property>
+    <property name="titlebar">
       <object class="GtkHeaderBar" id="headerBar">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="title">Bem-vindo</property>
-        <property name="subtitle">Welcome</property>
-        <property name="show_close_button">False</property>
+        <property name="show-title-buttons">False</property>
+        <property name="title-widget">
+            <!-- https://docs.gtk.org/gtk4/migrating-3to4.html#adapt-to-gtkheaderbar-and-gtkactionbar-api-changes -->
+            <!-- https://gjs.guide/extensions/upgrading/gnome-shell-40.html#gtkheaderbar-sub-title -->
+            <!-- https://docs.gtk.org/gtk4/class.HeaderBar.html#gtkheaderbar-as-gtkbuildable -->
+            <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="valign">center</property>
+                <child>
+                    <object class="GtkLabel" id="title">
+                        <property name="label">Bem-vindo</property>
+                        <style>
+                            <class name="title"/>
+                        </style>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkLabel" id="subtitle">
+                        <property name="label">Welcome</property>
+                        <style>
+                            <class name="subtitle"/>
+                        </style>
+                    </object>
+                </child>
+            </object>
+        </property><!-- title-widget -->
         <child>
           <object class="GtkButton" id="btnBack">
             <property name="label" translatable="yes">Back</property>
             <property name="visible">False</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_btn_back_clicked"/>
           </object>
         </child>
-        <child>
+        <child type="end">
           <object class="GtkButton" id="btnReboot">
-            <property name="visible">False</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="image">imgReboot</property>
-            <property name="always_show_image">True</property>
+            <property name="icon-name">system-reboot-symbolic</property>
             <property name="tooltip-text" translatable="yes">Reboot</property>
-          </object>
-          <packing>
-            <property name="pack_type">end</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="btnShutdown">
             <property name="visible">False</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="image">imgShutdown</property>
-            <property name="always_show_image">True</property>
-            <property name="tooltip-text" translatable="yes">Shutdown</property>
+            <signal name="clicked" handler="on_btn_reboot_clicked"/>
           </object>
-          <packing>
-            <property name="pack_type">end</property>
-            <property name="position">2</property>
-          </packing>
         </child>
-      </object>
-    </child>
+        <child type="end">
+          <object class="GtkButton" id="btnShutdown">
+            <property name="icon-name">system-shutdown-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Shutdown</property>
+            <property name="visible">False</property>
+            <signal name="clicked" handler="on_btn_shutdown_clicked"/>
+          </object>
+        </child>
+      </object><!-- headerBar -->
+    </property><!-- titlebar -->
     <child>
       <object class="GtkStack" id="stack">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="margin-bottom">24</property>
+        <property name="margin-end">24</property>
+        <property name="margin-start">24</property>
+        <property name="margin-top">24</property>
         <property name="valign">center</property>
         <property name="transition-duration">500</property>
-        <property name="transition_type">slide-left</property>
+        <property name="transition-type">slide-left</property>
       </object>
     </child>
-  </object>
-  <object class="GtkImage" id="imgPortuguese">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="halign">center</property>
-    <property name="valign">center</property>
-    <property name="margin_left">10</property>
-    <property name="margin_right">10</property>
-    <property name="margin_top">10</property>
-    <property name="margin_bottom">10</property>
-    <property name="pixbuf">png/BR.png</property>
-  </object>
-  <object class="GtkImage" id="imgEnglish">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="halign">center</property>
-    <property name="valign">center</property>
-    <property name="margin_left">10</property>
-    <property name="margin_right">10</property>
-    <property name="margin_top">10</property>
-    <property name="margin_bottom">10</property>
-    <property name="pixbuf">png/international-english.png</property>
-  </object>
+  </template>
+
   <object class="GtkGrid" id="grdLanguage">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="margin_left">20</property>
-    <property name="margin_right">20</property>
-    <property name="margin_top">20</property>
-    <property name="margin_bottom">20</property>
-    <property name="column_homogeneous">True</property>
-    <child>
-      <object class="GtkButton" id="btnPortuguese">
-        <property name="label">Português Brasileiro</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
-        <property name="margin_left">10</property>
-        <property name="margin_right">10</property>
-        <property name="margin_top">10</property>
-        <property name="margin_bottom">10</property>
-        <property name="image">imgPortuguese</property>
-        <property name="image_position">top</property>
-        <property name="always_show_image">True</property>
-      </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">2</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkButton" id="btnEnglish">
-        <property name="label">International English</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
-        <property name="margin_left">10</property>
-        <property name="margin_right">10</property>
-        <property name="margin_top">10</property>
-        <property name="margin_bottom">10</property>
-        <property name="image">imgEnglish</property>
-        <property name="image_position">top</property>
-        <property name="always_show_image">True</property>
-      </object>
-      <packing>
-        <property name="left_attach">1</property>
-        <property name="top_attach">2</property>
-      </packing>
-    </child>
+    <property name="column-homogeneous">True</property>
+    <property name="column-spacing">24</property>
+    <property name="row-spacing">12</property>
+    <property name="valign">center</property>
     <child>
       <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_bottom">10</property>
-        <property name="label">Escolha o idioma de sua preferência clicando na opção desejada abaixo.</property>
         <property name="justify">center</property>
-        <property name="wrap">True</property>
-      </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_bottom">10</property>
-        <property name="label">Choose your preferred language by clicking the desired option below.</property>
-        <property name="justify">center</property>
-        <property name="wrap">True</property>
-      </object>
-      <packing>
-        <property name="left_attach">1</property>
-        <property name="top_attach">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label">Welcome to Linux Kamarada!</property>
-        <property name="justify">center</property>
-        <property name="wrap">True</property>
-        <attributes>
-          <attribute name="weight" value="bold"/>
-        </attributes>
-      </object>
-      <packing>
-        <property name="left_attach">1</property>
-        <property name="top_attach">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
         <property name="label">Bem-vindo ao Linux Kamarada!</property>
-        <property name="justify">center</property>
         <property name="wrap">True</property>
         <attributes>
           <attribute name="weight" value="bold"/>
         </attributes>
+        <layout>
+          <property name="column">0</property>
+          <property name="row">0</property>
+        </layout>
       </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">0</property>
-      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="justify">center</property>
+        <property name="label">Welcome to Linux Kamarada!</property>
+        <property name="wrap">True</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+        <layout>
+          <property name="column">1</property>
+          <property name="row">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="justify">center</property>
+        <property name="label">Escolha o idioma de sua preferência clicando na opção desejada abaixo.</property>
+        <property name="margin-bottom">10</property>
+        <property name="valign">start</property>
+        <property name="wrap">True</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="row">1</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="justify">center</property>
+        <property name="label">Choose your preferred language by clicking the desired option below.</property>
+        <property name="margin-bottom">10</property>
+        <property name="valign">start</property>
+        <property name="wrap">True</property>
+        <layout>
+          <property name="column">1</property>
+          <property name="row">1</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="GtkGrid">
+        <property name="column-homogeneous">True</property>
+        <property name="column-spacing">24</property>
+        <property name="row-homogeneous">True</property>
+        <child>
+          <object class="GtkButton" id="btnPortuguese">
+            <property name="child">
+              <object class="GtkGrid">
+                <property name="halign">center</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-top">12</property>
+                <property name="row-spacing">12</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkPicture" id="imgPortuguese">
+                    <property name="halign">center</property>
+                    <property name="valign">end</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">0</property>
+                    </layout>
+                  </object>  
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="justify">center</property>
+                    <property name="label">Português Brasileiro</property>
+                    <property name="valign">start</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">1</property>
+                    </layout>
+                  </object>
+                </child>
+              </object>
+            </property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">0</property>
+            </layout>
+            <signal name="clicked" handler="on_btn_portuguese_clicked"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnEnglish">
+            <property name="child">
+              <object class="GtkGrid">
+                <property name="halign">center</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-top">12</property>
+                <property name="row-spacing">12</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkPicture" id="imgEnglish">
+                    <property name="halign">center</property>
+                    <property name="valign">end</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">0</property>
+                    </layout>
+                  </object>  
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="justify">center</property>
+                    <property name="label">International English</property>
+                    <property name="valign">start</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">1</property>
+                    </layout>
+                  </object>
+                </child>
+              </object>
+            </property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">0</property>
+            </layout>
+            <signal name="clicked" handler="on_btn_english_clicked"/>
+          </object>
+        </child>
+        <layout>
+          <property name="column">0</property>
+          <property name="column-span">2</property>
+          <property name="row">2</property>
+        </layout>
+      </object>
     </child>
   </object>
-  <object class="GtkImage" id="imgShutdown">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">system-shutdown-symbolic</property>
-  </object>
-  <object class="GtkImage" id="imgReboot">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">system-reboot-symbolic</property>
-  </object>
-  <object class="GtkImage" id="imgTry">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="halign">center</property>
-    <property name="valign">center</property>
-    <property name="margin_left">10</property>
-    <property name="margin_right">10</property>
-    <property name="margin_top">10</property>
-    <property name="margin_bottom">10</property>
-    <property name="pixbuf">png/try.png</property>
-  </object>
-  <object class="GtkImage" id="imgInstall">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="halign">center</property>
-    <property name="valign">center</property>
-    <property name="margin_left">10</property>
-    <property name="margin_right">10</property>
-    <property name="margin_top">10</property>
-    <property name="margin_bottom">10</property>
-    <property name="pixbuf">png/install.png</property>
-  </object>
+
   <object class="GtkGrid" id="grdTryInstall">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="margin_left">20</property>
-    <property name="margin_right">20</property>
-    <property name="margin_top">20</property>
-    <property name="margin_bottom">20</property>
-    <property name="column_homogeneous">True</property>
+    <property name="column-homogeneous">True</property>
+    <property name="column-spacing">24</property>
+    <property name="row-spacing">12</property>
+    <property name="valign">center</property>
     <child>
-      <object class="GtkButton" id="btnTry">
-        <property name="label" translatable="yes">Try Linux Kamarada</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
-        <property name="halign">center</property>
-        <property name="margin_left">10</property>
-        <property name="margin_right">10</property>
-        <property name="margin_top">10</property>
-        <property name="margin_bottom">10</property>
-        <property name="image">imgTry</property>
-        <property name="image_position">top</property>
-        <property name="always_show_image">True</property>
+      <object class="GtkGrid">
+        <property name="column-homogeneous">True</property>
+        <property name="column-spacing">24</property>
+        <property name="row-homogeneous">True</property>
+        <child>
+          <object class="GtkButton" id="btnTry">
+            <property name="halign">fill</property>
+            <property name="valign">fill</property>
+            <property name="child">
+              <object class="GtkGrid">
+                <property name="halign">center</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-top">12</property>
+                <property name="row-homogeneous">True</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkPicture" id="imgTry">
+                    <property name="halign">center</property>
+                    <property name="valign">end</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">0</property>
+                    </layout>
+                  </object>  
+                </child>
+                <child>
+                  <object class="GtkLabel" id="lbTryButton">
+                    <property name="justify">center</property>
+                    <property name="label">Try Linux Kamarada</property>
+                    <property name="margin-top">12</property>
+                    <property name="valign">start</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">1</property>
+                    </layout>
+                  </object>
+                </child>
+              </object>
+            </property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">0</property>
+            </layout>
+            <signal name="clicked" handler="on_btn_try_clicked"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnInstall">
+            <property name="halign">fill</property>
+            <property name="valign">fill</property>
+            <property name="child">
+              <object class="GtkGrid">
+                <property name="halign">center</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-top">12</property>
+                <property name="row-homogeneous">True</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkPicture" id="imgInstall">
+                    <property name="halign">center</property>
+                    <property name="valign">end</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">0</property>
+                    </layout>
+                  </object>  
+                </child>
+                <child>
+                  <object class="GtkLabel" id="lbInstallButton">
+                    <property name="justify">center</property>
+                    <property name="label">Install Linux Kamarada</property>
+                    <property name="margin-top">12</property>
+                    <property name="valign">start</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">1</property>
+                    </layout>
+                  </object>
+                </child>
+              </object>
+            </property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">0</property>
+            </layout>
+            <signal name="clicked" handler="on_btn_install_clicked"/>
+          </object>
+        </child>
+        <layout>
+          <property name="column">0</property>
+          <property name="column-span">2</property>
+          <property name="row">0</property>
+        </layout>
       </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">0</property>
-      </packing>
     </child>
     <child>
-      <object class="GtkButton" id="btnInstall">
-        <property name="label" translatable="yes">Install Linux Kamarada</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
-        <property name="halign">center</property>
-        <property name="margin_left">10</property>
-        <property name="margin_right">10</property>
-        <property name="margin_top">10</property>
-        <property name="margin_bottom">10</property>
-        <property name="image">imgInstall</property>
-        <property name="image_position">top</property>
-        <property name="always_show_image">True</property>
-      </object>
-      <packing>
-        <property name="left_attach">1</property>
-        <property name="top_attach">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="lbTry">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="halign">center</property>
+      <object class="GtkLabel" id="lbTryInfo">
+        <property name="justify">center</property>
         <property name="label" translatable="yes">You can try Linux Kamarada without making any changes to your computer, directly from this live medium.</property>
-        <property name="justify">center</property>
+        <property name="valign">start</property>
         <property name="wrap">True</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="row">1</property>
+        </layout>
       </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">1</property>
-      </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="lbInstall">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="halign">center</property>
-        <property name="label" translatable="yes">Or, if you're ready, you can install Linux Kamarada alongside (or instead of) your current operating system.</property>
+      <object class="GtkLabel" id="lbInstallInfo">
         <property name="justify">center</property>
+        <property name="label" translatable="yes">Or, if you're ready, you can install Linux Kamarada alongside (or instead of) your current operating system.</property>        
+        <property name="valign">start</property>
         <property name="wrap">True</property>
+        <layout>
+          <property name="column">1</property>
+          <property name="row">1</property>
+        </layout>
       </object>
-      <packing>
-        <property name="left_attach">1</property>
-        <property name="top_attach">1</property>
-      </packing>
     </child>
   </object>
 </interface>

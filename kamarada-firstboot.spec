@@ -1,5 +1,5 @@
 Name:           kamarada-firstboot
-Version:        15.4
+Version:        15.5
 Release:        0
 Summary:        Kamarada Firstboot
 License:        GPL-3.0
@@ -7,12 +7,12 @@ Url:            https://gitlab.com/kamarada/firstboot/
 Source:         https://gitlab.com/kamarada/firstboot/-/archive/%{version}/firstboot-%{version}.tar.gz#/%{name}.tar.gz
 
 Requires:       calamares
+Requires:       gnome-kiosk
 Requires:       gnome-shell
 # kdesu
 Requires:       kde-cli-tools5
 Requires:       libqt5-qtstyleplugins-platformtheme-gtk2
 Requires:       live-langset-data
-Requires:       openbox
 Requires:       python3
 Requires:       python3-gobject-Gdk
 Requires:       sed
@@ -37,16 +37,20 @@ Try / Install welcome screen presented to the user when the Live system boots.
 mkdir -p %{buildroot}%{_bindir}/
 install -m0755 usr/bin/kamarada-firstboot %{buildroot}%{_bindir}/
 
+mkdir -p %{buildroot}/usr/lib/systemd/system/
+install -m0755 usr/lib/systemd/system/kamarada-firstboot.service %{buildroot}/usr/lib/systemd/system/
+
 mkdir -p %{buildroot}%{_sbindir}/
 install -m0755 usr/sbin/kamarada-setup %{buildroot}%{_sbindir}/
 
 mkdir -p %{buildroot}%{_datadir}/kamarada-firstboot/png/
-install -m0644 usr/share/kamarada-firstboot/kamarada-firstboot.{py,ui} %{buildroot}%{_datadir}/kamarada-firstboot/
+install -m0644 usr/share/kamarada-firstboot/kamarada-firstboot.{css,py,ui} %{buildroot}%{_datadir}/kamarada-firstboot/
 install -m0644 usr/share/kamarada-firstboot/png/* %{buildroot}%{_datadir}/kamarada-firstboot/png/
 
 
 %files
 %{_bindir}/kamarada-firstboot
+/usr/lib/systemd/system/kamarada-firstboot.service
 %{_sbindir}/kamarada-setup
 %{_datadir}/kamarada-firstboot/
 
