@@ -1,5 +1,5 @@
 Name:           kamarada-firstboot
-Version:        15.5
+Version:        15.6
 Release:        0
 Summary:        Kamarada Firstboot
 License:        GPL-3.0

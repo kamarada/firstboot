@@ -14,7 +14,10 @@ whereAmI = abspath(dirname(realpath(__file__)))
 
 
 APPLICATION_WINDOW = join(whereAmI, 'kamarada-firstboot.ui')
-BACKGROUND_PICTURE = '/usr/share/wallpapers/Ribeirao-Capivari/contents/images/3840x2160.jpg'
+BACKGROUND_PICTURE = '/usr/share/backgrounds/kamarada/cambirela-light.jpg'
+# TODO Get background from GSettings
+# Path: org.gnome.desktop.background
+# Key: picture-uri
 CUSTOM_CSS_STYLESHEET = join(whereAmI, 'kamarada-firstboot.css')
 RESULT_FILE = expanduser('~/.config/kamarada-firstboot')
 
