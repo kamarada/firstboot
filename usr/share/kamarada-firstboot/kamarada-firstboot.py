@@ -6,18 +6,17 @@ import sys
 import threading
 
 import gi
+gi.require_version('Gdk', '4.0')
 gi.require_version('Gtk', '4.0')
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, Gio, Gtk
 
 
 whereAmI = abspath(dirname(realpath(__file__)))
 
 
 APPLICATION_WINDOW = join(whereAmI, 'kamarada-firstboot.ui')
-BACKGROUND_PICTURE = '/usr/share/backgrounds/kamarada/cambirela-light.jpg'
-# TODO Get background from GSettings
-# Path: org.gnome.desktop.background
-# Key: picture-uri
+GSETTINGS_BACKGROUND_PATH = 'org.gnome.desktop.background'
+GSETTINGS_BACKGROUND_KEY = 'picture-uri'
 CUSTOM_CSS_STYLESHEET = join(whereAmI, 'kamarada-firstboot.css')
 RESULT_FILE = expanduser('~/.config/kamarada-firstboot')
 
@@ -29,7 +28,13 @@ class FirstBootBackgroundWindow(Gtk.ApplicationWindow):
         self._can_close = False
         self.connect('close-request', self.on_close_request)
 
-        self.background_picture = Gtk.Picture.new_for_filename(BACKGROUND_PICTURE)
+        # Get background from GSettings
+        # https://www.micahcarrick.com/gsettings-python-gnome-3.html
+        gsettings = Gio.Settings.new(GSETTINGS_BACKGROUND_PATH)
+        picture_uri = gsettings.get_string(GSETTINGS_BACKGROUND_KEY)
+        picture_file = Gio.File.new_for_uri(picture_uri)
+
+        self.background_picture = Gtk.Picture.new_for_file(picture_file)
         self.background_picture.set_keep_aspect_ratio(False)
         self.set_child(self.background_picture)
 
