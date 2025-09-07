@@ -45,7 +45,7 @@ class FirstBootBackgroundWindow(Gtk.ApplicationWindow):
         self.close()
 
     def on_close_request(self, user_data):
-        return ~self._can_close
+        return not self._can_close
 
 
 @Gtk.Template(filename=APPLICATION_WINDOW)
